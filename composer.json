@@ -14,10 +14,5 @@
     },
     "autoload": {
         "psr-0": {"Tertere\\": "fsclient/Tertere"}
-    },
-    "extra": {
-        "branch-alias": {
-            "dev-master": "master"
-        }
     }
 }
