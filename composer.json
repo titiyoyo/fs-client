@@ -3,6 +3,7 @@
     "description": "An agnostic client to different file services",
     "type": "library",
     "license": "MIT",
+	"minimum-stability": "dev",
     "authors": [
         {
             "name": "Terence Pires",
