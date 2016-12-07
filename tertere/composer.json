@@ -1,0 +1,23 @@
+{
+    "name": "tertere/sf-fsclient",
+    "description": "An agnostic client to different file services",
+    "type": "library",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Terence Pires",
+            "email": "terence@terencepires.com"
+        }
+    ],
+    "require": {
+        "php": ">=7.0"
+    },
+    "autoload": {
+        "psr-0": {"Tertere\\": "fsclient/Tertere"}
+    },
+    "extra": {
+        "branch-alias": {
+            "dev-master": "master"
+        }
+    },
+}
