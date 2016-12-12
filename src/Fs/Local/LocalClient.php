@@ -137,14 +137,9 @@ class LocalClient extends FsClientBase {
 
 	}
 
-	public function createFile($path) {
-		if (!file_exists($this->getAbsolutePath($this->homeDir)  . "/" . $path))
-			return mkdir($this->getAbsolutePath($this->homeDir)  . "/" . $path);
-	}
-
 	public function createDir($path) {
-		if (!file_exists($this->getAbsolutePath($this->homeDir)  . "/" . $path))
-			return mkdir($this->getAbsolutePath($this->homeDir)  . "/" . $path);
+		if (!$this->fileExists($path))
+			return mkdir($this->getAbsolutePath($this->getRootDir() . "/" . $this->getHomeDir())  . $path);
 	}
 
 	public function list($path = ".", $parentHash = "") {

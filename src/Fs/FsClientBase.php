@@ -18,7 +18,6 @@ abstract class FsClientBase {
 	abstract public function delete($path);
 	abstract public function rename($path, $newName);
 	abstract public function move($localPath, $targetPath);
-	abstract public function createFile($path);
 	abstract public function createDir($path);
 	abstract public function list($path, $parentHash = "");
 	abstract public function getAbsolutePath($path);
@@ -62,9 +61,9 @@ abstract class FsClientBase {
 		    throw new \Exception(__METHOD__ . " - Directory " . $outputPath . " is not writable");
 		}
 
-		if ($filesCount > 1) {
-			foreach($filesArray as $file) {
-				$zipCommand .= "'{$this->rootDir}/{$this->homeDir}/{$path}/{$file}' ";
+		if ($filesCount >= 1) {
+			foreach($pathArray as $file) {
+				$zipCommand .= "'{$this->rootDir}/{$this->homeDir}/{$file}' ";
 				$zipCommand = preg_replace("/\/$/", "", $zipCommand);
 			}
 
