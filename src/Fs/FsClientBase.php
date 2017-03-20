@@ -2,6 +2,8 @@
 
 namespace Tertere\Fs;
 
+use \Tertere\Fs\FsClientLogger as FsClientLogger;
+
 abstract class FsClientBase {
 	const MODE_LOCAL = 1;
 	const MODE_FTP = 2;
@@ -22,14 +24,22 @@ abstract class FsClientBase {
 	abstract public function list($path, $parentHash = "");
 	abstract public function getAbsolutePath($path);
 
-	abstract public static function test();
+	abstract public static function test($parametersArray);
 
+	/**
+		indexes list:
+		config 		-> the whole $settingsArray parameters array
+		rootDir 	-> files root dir (ftp or local)
+		tmpDir 		-> local temp dir
+		homeDir 	-> user root dir
+		logger 		-> an sfLogger instance (optional)
+	*/
 	public function __construct($settingsArray) {
-		$this->logger = $settingsArray["logger"];
 		$this->config = $settingsArray;
 		$this->rootDir = $settingsArray["root_dir"];
 		$this->tmpDir = $settingsArray["tmp_dir"];
 		$this->homeDir = $settingsArray["home_dir"];
+		$this->logger = new FsClientLogger($settingsArray["logger"] ?? null);
 	}
 
 	public function getBreadcumbArray($path) {

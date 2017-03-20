@@ -2,7 +2,7 @@
 
 namespace Tertere\Fs\Local;
 use \Tertere\Fs\Local\LocalItem as LocalItem;
-use \Tertere\Fs\FsClientBase as FsClientBase;
+use Tertere\Fs\FsClientBase as FsClientBase;
 
 class LocalClient extends FsClientBase {
 
@@ -35,7 +35,7 @@ class LocalClient extends FsClientBase {
 		return str_replace($this->getAbsolutePath($this->getHomeDir(), "", $absPath));
 	}
 
-	public static function test() {
+	public static function test($parametersArray) {
 
 	}
 

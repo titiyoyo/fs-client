@@ -10,7 +10,7 @@ class FtpClient extends FsClientBase
     /** @var id de connexion au ftp */
     private $isLogged = false;
 
-	private
+	protected
         /** @var string adresse du serveur */
         $ftpAddress,
         /** @var string login du serveur */
@@ -95,8 +95,12 @@ class FtpClient extends FsClientBase
 	 *
 	 * @return bool
 	 */
-	public static function test($ftpLogin, $ftpPass, $ftpAddress)
+	public static function test($parametersArray)
 	{
+		$ftpLogin = $parametersArray['login'];
+		$ftpPass = $parametersArray['pass'];
+		$ftpAddress = $parametersArray['address'];
+
 		$result = FALSE;
 
 		try {
@@ -273,8 +277,15 @@ class FtpClient extends FsClientBase
 		return $result;
 	}
 
-	public function getFullPath($path) {
+	/**
+		TODO
+	*/
+	public function getFullPath($path) {}
 
-	}
+
+	/**
+		TODO
+	*/
+	public function move($localPath, $targetPath) {}
 }
 ?>
