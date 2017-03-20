@@ -4,68 +4,103 @@ namespace Tertere\Test;
 use \PHPUnit\Framework\TestCase;
 use \Tertere\Fs\Local\LocalClient as LocalClient;
 
-class FsClientTest extends TestCase
+class LocalClientTest extends TestCase
 {
-	const rootFolder = "./tmp/fsclient/files";
-	const tmpFolder = "./tmp/fsclient/tmp";
+	const rootFolder = "./tmp/files";
+	const tmpFolder = "./tmp/tmp";
 
-	private $folders = [
+	private $commonFolders = [
 		self::rootFolder,
-		self::tmpFolder,
-		self::rootFolder . "/user1",
-		self::rootFolder . "/user1/dir1",
-		self::rootFolder . "/user1/dir2",
-		self::rootFolder . "/user1/dir3"
-    ];
-
-    private $files = [
-		self::rootFolder . "/user1/dir1/file1.txt",
-		self::rootFolder . "/user1/dir1/file2.txt",
-		self::rootFolder . "/user1/dir1/file3.txt",
-		self::rootFolder . "/user1/dir2/file1.txt",
-		self::rootFolder . "/user1/dir2/file2.txt",
-		self::rootFolder . "/user1/dir2/file3.txt",
-		self::rootFolder . "/user1/dir3/file1.txt",
-		self::rootFolder . "/user1/dir3/file2.txt",
-		self::rootFolder . "/user1/dir3/file3.txt"
+		self::tmpFolder
 	];
 
+	private $userFolders = [
+		"user1",
+		"user2",
+		"user3"
+    ];
 
-	public function testList()
+    private $userFiles = [
+		"file1.txt",
+		"file2.txt",
+		"file3.txt",
+	];
+
+	public function testPermissions() 
 	{
-		$this->createFileStructure();
-		$a = new LocalClient($this->getConfig());
+		$this->init();
+
+		$a = new LocalClient($this->getConfig(realpath(".")));
+
+		$this->cleanFiles(realpath(self::rootFolder));
+		$this->cleanFiles(realpath(self::tmpFolder));
+	}
+
+	public function init()
+	{
+		$oldmask = umask(0);
+
+		if (!realpath(self::rootFolder)) {
+			mkdir(self::rootFolder, 2777, true);
+			chmod(realpath(self::rootFolder), 2777);
+		}
+
+		if (!realpath(self::tmpFolder)) {
+			mkdir(self::tmpFolder, 2777, true);
+			chmod(realpath(self::tmpFolder), 2777);
+		}
+
+		foreach ($this->userFolders as $folder) {
+			$this->createUserFilesAndFolders(realpath(self::rootFolder) . "/" . $folder);
+		}
+
+		umask($oldmask);
 	}
 
 
-	public function createFileStructure()
+	public function createUserFilesAndFolders($basedir)
     {
-    	foreach($this->folders as $folder) {
-    		$curFolder = realpath(".") . $folder;
+    	$oldmask = umask(0);
+
+    	foreach($this->userFolders as $folder) {
+    		$curFolder = realpath(self::rootFolder) . "/" . $basedir . "/" . $folder;
     		if (!file_exists($curFolder)) {
     			mkdir($curFolder, 2777, true);
     		}
-    	}
-    	
-    	foreach($this->files as $file) {
-    		$curFile = realpath(".") . $file;
-    		if (!file_exists($curFile)) {
-    			touch($curFile);
+
+    		if (file_exists($curFolder)) {
+	    		foreach ($this->userFiles as $file) {
+	    			touch($curFolder . "/" . $file);
+	    		}
+    		} else {
+    			throw new Exception("Couldn't create file " . $file . " because folder " . $curFolder . " has not been created");
     		}
     	}
+
+    	umask($oldmask);
     }
 
-    public function cleanFiles()
+    public function cleanFiles($baseFolder)
     {
-    	array_map("unlink", $this->files);
-    	array_map("unlink", $this->folders);
+    	$baseFiles = scandir($baseFolder);
+    	foreach($baseFiles as $curFile) {
+    		$fullPath = $baseFolder . "/". $curFile;
+    		if ($curFile != "." || $curFile != "..") {
+    			if (is_dir($fullPath)) {
+    				cleanFiles($fullPath);
+    			} else {
+    				unlink($fullPath);
+    				// unlink($fullPath);
+    			}
+    		}
+    	}
     }
 
     private function getConfig($userFolder)
     {
     	return [
-			"root_dir" => $this->rootFolder,
-			"tmp_dir" => $this->tmpFolder,
+			"root_dir" => self::rootFolder,
+			"tmp_dir" => self::tmpFolder,
 			"home_dir" => $userFolder
     	];
     }
