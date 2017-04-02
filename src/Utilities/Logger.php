@@ -3,7 +3,6 @@
 namespace Tertere\Utilities;
 
 use Psr\Log\LoggerInterface;
-use Symfony\Component\VarDumper\VarDumper;
 use Symfony\Component\VarDumper\Cloner\VarCloner;
 use Symfony\Component\VarDumper\Dumper\CliDumper;
 
@@ -13,15 +12,19 @@ class Logger
     const TYPE_ERROR = "ERROR";
     const TYPE_DEBUG = "DEBUG";
 
+    private $allTypes = [
+        self::TYPE_INFO, self::TYPE_ERROR, self::TYPE_DEBUG
+    ];
+
     protected $logger;
     protected $cloner;
     protected $dumper;
 
-    public function __construct(LoggerInterface $logger)
+    public function __construct(LoggerInterface $logger, VarCloner $cloner, CliDumper $dumper)
     {
         $this->logger = $logger;
-        $this->cloner = new VarCloner();
-        $this->dumper = new CliDumper();
+        $this->cloner = $cloner;
+        $this->dumper = $dumper;
     }
 
     public function log($data, $type = self::TYPE_INFO) {
@@ -42,6 +45,7 @@ class Logger
                 $this->error($cliOutput);
                 break;
             case self::TYPE_INFO:
+            default:
                 $this->info($cliOutput);
                 break;
         }
@@ -54,7 +58,7 @@ class Logger
     public function dumpArray($data) {
         $output = null;
         $this->dumper->dump(
-            $this->cloner->cloneVar($variable),
+            $this->cloner->cloneVar($data),
             function ($line, $depth) use (&$output) {
                 // A negative depth means "end of dump"
                 if ($depth >= 0) {

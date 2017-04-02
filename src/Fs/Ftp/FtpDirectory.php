@@ -1,9 +1,10 @@
 <?php
 
 namespace Tertere\Fs\Ftp;
-use \Tertere\Fs\FsClientBase as FsClientBase;
 
-class FtpClient extends FsClientBase
+use Tertere\Fs\AbstractDirectory;
+
+class FtpDirectory extends AbstractDirectory
 {
     /** @var int id de connexion au ftp */
     private $connId = null;

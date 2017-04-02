@@ -1,6 +1,8 @@
 <?php
+
 namespace Tertere\Fs\Ftp;
-use \Tertere\Fs\ItemBase as ItemBase;
+
+use \Tertere\Fs\AbstractItem;
 
 /**
  * Created by JetBrains PhpStorm.
@@ -9,7 +11,7 @@ use \Tertere\Fs\ItemBase as ItemBase;
  * Time: 07:12
  * To change this template use File | Settings | File Templates.
  */
-class FtpItem extends ItemBase
+class FtpItem extends AbstractItem
 {
     public $permissions, $num, $owner, $group, $size, $date;
 

@@ -2,24 +2,28 @@
 
 namespace Tertere\Fs;
 
-abstract class ItemBase {
+abstract class AbstractItem {
     private $video_formats 	    = ["AVI", "MOV", "MPG", "MPA", "ASF", "WMA", "MP2", "M2P", "RARE", "DIF", "MP4", "VOB"];
     private $audio_formats      = ["MP3", "AIFF", "AIF", "WAV", "PCM", "M4A"];
     private $photo_formats 	    = ["JPG", "PNG", "TIFF", "BMP", "GIF"];
 
-    public 
-    	$isDir,
-    	$filename,
-    	$extension,
-        $date,
-        $size,
-		$relativePath, 
-		$absolutePath, 
-		$hash, 
-		$parentHash;
+    protected $localPath;
+    protected $mimeType;
+    protected $dirname;
+    protected $filename;
+    protected $size;
+    protected $isDir;
+    protected $absolutePath;
+    protected $extension;
+    protected $creationDate;
+    protected $modificationDate;
+    protected $type;
 
-    abstract public function isDir();
-    abstract public function toJson();
+    abstract public function toArray();
+
+    public function toJson() {
+        return $this->json_encode($this->toArray(), true);
+    }
 
     public function getType() 
     {
@@ -32,20 +36,6 @@ abstract class ItemBase {
             $type = "photo";
         }
         return $type;
-    }
-
-    private function getAbsolutePath($path)
-    {
-        $result                 = "";
-        $pathChunks             = explode("/", $path);
-
-        foreach($pathChunks as $chunk) {
-            if($chunk != "" && !is_null($chunk) && $chunk != ".." && $chunk != ".") {
-                $result        .= $chunk . "/";
-            }
-        }
-
-        return $result;
     }
 
     protected function formatSize($str)
