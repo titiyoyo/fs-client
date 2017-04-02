@@ -2,14 +2,20 @@
 
 namespace Tertere\Test;
 use \PHPUnit\Framework\TestCase;
-use \Tertere\Fs\FsClientLogger as FsClientLogger;
+use Tertere\Utilities\Logger;
 
 class FsClientLoggerTest extends TestCase
 {
-	public function testLogger()
+    public function testLogger()
 	{
-		$logger = new FsClientLogger();
-		$logger->error("ss");
+        $loggerInterfaceMock = $this->createMock("LoggerInterface");
+        $logger = new Logger($loggerInterfaceMock);
+        var_dump(
+            $logger->dumpArray([
+                2,3,4,5
+            ])
+        );
+
 	}
 }
 
