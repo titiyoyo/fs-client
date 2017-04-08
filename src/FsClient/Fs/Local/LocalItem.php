@@ -59,8 +59,9 @@ class LocalItem extends AbstractItem
         $pathToTest = $path;
         if (file_exists($path)) {
             $pathToTest = realpath($path);
-            if (is_file($path))
+            if (is_file($path)) {
                 dirname($pathToTest);
+            }
         }
 
         $localPath = $this->path;
@@ -76,14 +77,12 @@ class LocalItem extends AbstractItem
         $highestCommonDirIdx = null;
         $idx = 0;
 
-        while($continue)
-        {
+        while ($continue) {
             $continue = false;
             if (isset($testPathChunks[$idx])
                 && isset($itemPathChunks[$idx])
                 && $testPathChunks[$idx] === $itemPathChunks[$idx]
-            )
-            {
+            ) {
                 $highestCommonDirIdx = $idx;
                 $continue = true;
             }

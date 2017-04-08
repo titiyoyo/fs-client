@@ -12,7 +12,13 @@ use Tertere\FsClient\Exception\FsClientConfigException;
 
 abstract class AbstractDirectory
 {
+    protected $items = [];
     protected $path;
+
+    public function get($idx)
+    {
+        return $this->items[$idx];
+    }
 
     public function getPath()
     {
@@ -28,6 +34,7 @@ abstract class AbstractDirectory
 
         throw new FsClientConfigException(__METHOD__ . " - invalid path " . $path);
     }
+
 
     abstract public function validatePath($path): bool;
 }

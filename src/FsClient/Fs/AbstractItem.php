@@ -56,7 +56,8 @@ abstract class AbstractItem
         return $this->isFile;
     }
 
-    public function getPath() {
+    public function getPath()
+    {
         return $this->path;
     }
 

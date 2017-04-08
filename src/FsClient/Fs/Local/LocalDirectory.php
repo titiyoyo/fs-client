@@ -15,7 +15,6 @@ class LocalDirectory extends AbstractDirectory
 
     private $oFs;
     private $deleted;
-    private $items = [];
     private $dirs = [];
     private $files = [];
     private $links = [];
@@ -30,6 +29,10 @@ class LocalDirectory extends AbstractDirectory
 
         $this->oFs = new Filesystem();
         $this->deleted = false;
+    }
+
+    public function get()
+    {
     }
 
     public function getFiles(): array

@@ -131,7 +131,6 @@ class LocalItemTest extends TestCase
         $this->assertEquals("./toto/truc", $relativePath);
         $relativePath = $localFile->getRelativePathTo("toto/truc");
         $this->assertEquals("toto/truc", $relativePath);
-
     }
 
     private function checkFileExistence($file)
