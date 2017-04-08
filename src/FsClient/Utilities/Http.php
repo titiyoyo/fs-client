@@ -16,15 +16,15 @@ class Http
     public static function forceDownload($filename)
     {
         // required for IE, otherwise Content-disposition is ignored
-        if(ini_get('zlib.output_compression'))
-        { ini_set('zlib.output_compression', 'Off'); }
+        if (ini_get('zlib.output_compression')) {
+            ini_set('zlib.output_compression', 'Off');
+        }
 
         // addition by Jorg Weske
-        $file_extension                     = strtolower(substr(strrchr($filename,"."),1));
+        $file_extension                     = strtolower(substr(strrchr($filename, "."), 1));
         $taille                             = filesize($filename);
 
-        switch( $file_extension )
-        {
+        switch ($file_extension) {
             case "gif":                     $ctype = "image/gif"; break;
             case "png":                     $ctype = "image/png"; break;
             case "jpeg": case "jpg":        $ctype = "image/jpg"; break;
@@ -44,7 +44,7 @@ class Http
         header("Content-Type: $ctype");
 
         // change, added quotes to allow spaces in filenames, by Rajkumar Singh
-        header("Content-Disposition: attachment; filename=\"".basename($filename)."\";" );
+        header("Content-Disposition: attachment; filename=\"".basename($filename)."\";");
         header("Content-Transfer-Encoding: binary");
         header("Retry-After: 5");
         header("Transfer-Encoding: gzip");

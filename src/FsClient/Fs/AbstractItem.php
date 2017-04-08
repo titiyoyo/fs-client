@@ -2,10 +2,11 @@
 
 namespace Tertere\FsClient\Fs;
 
-abstract class AbstractItem {
-    private $video_formats 	    = ["AVI", "MOV", "MPG", "MPA", "ASF", "WMA", "MP2", "M2P", "RARE", "DIF", "MP4", "VOB"];
+abstract class AbstractItem
+{
+    private $video_formats        = ["AVI", "MOV", "MPG", "MPA", "ASF", "WMA", "MP2", "M2P", "RARE", "DIF", "MP4", "VOB"];
     private $audio_formats      = ["MP3", "AIFF", "AIF", "WAV", "PCM", "M4A"];
-    private $photo_formats 	    = ["JPG", "PNG", "TIFF", "BMP", "GIF"];
+    private $photo_formats        = ["JPG", "PNG", "TIFF", "BMP", "GIF"];
 
     protected $localPath;
     protected $mimeType;
@@ -23,11 +24,12 @@ abstract class AbstractItem {
 
     abstract public function toArray();
 
-    public function toJson() {
+    public function toJson()
+    {
         return $this->json_encode($this->toArray(), true);
     }
 
-    public function getType() 
+    public function getType()
     {
         $type = "other";
         if (in_array(strtoupper($this->extension), $this->video_formats)) {
@@ -40,15 +42,18 @@ abstract class AbstractItem {
         return $type;
     }
 
-    public function isDir() {
+    public function isDir()
+    {
         return $this->isDir;
     }
 
-    public function isLink() {
+    public function isLink()
+    {
         return $this->isLink;
     }
 
-    public function isFile() {
+    public function isFile()
+    {
         return $this->isFile;
     }
 
@@ -56,14 +61,12 @@ abstract class AbstractItem {
     {
         $str = trim($str);
 
-        if($str > 1000000) {
+        if ($str > 1000000) {
             return round(($str / 1000000), 1) . " Mo";
-        } else if($str > 1000) {
+        } elseif ($str > 1000) {
             return round($str / 1000, 1) . " Ko";
         } else {
             return "{$str} octets";
         }
     }
 }
-
-?>

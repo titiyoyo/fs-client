@@ -8,16 +8,16 @@
 
 namespace Tertere\FsClient\Utilities;
 
-
 class File
 {
-    public static function createFileFromChunks($tmpDir, $filename, $totalSize, $totalChunks) {
+    public static function createFileFromChunks($tmpDir, $filename, $totalSize, $totalChunks)
+    {
         // count all the parts of this file
         $total_files_on_server_size = 0;
         $temp_total = 0;
         $chunkFiles = scandir($tmpDir);
         if (count($chunkFiles) - 2 == $totalChunks) {
-            foreach(scandir($tmpDir) as $file) {
+            foreach (scandir($tmpDir) as $file) {
                 $temp_total = $total_files_on_server_size;
                 $tempfilesize = filesize($tmpDir . '/' . $file);
                 $total_files_on_server_size = $temp_total + $tempfilesize;
@@ -38,7 +38,8 @@ class File
         }
     }
 
-    public static function chunkExists($tmpDir, $tmpSubDir, $filename, $chunkNumber) {
+    public static function chunkExists($tmpDir, $tmpSubDir, $filename, $chunkNumber)
+    {
         $chunk_file = $tmpDir . '/' . $tmpSubDir . "/" . $filename . '.part' . $chunkNumber;
         return (bool)realpath($chunk_file);
     }

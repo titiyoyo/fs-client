@@ -21,7 +21,7 @@ abstract class AbstractConfig
         $this->settingsArray = $settingsArray;
     }
 
-    abstract function validate();
+    abstract public function validate();
 
     /**
      * @return null

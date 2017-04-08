@@ -15,7 +15,8 @@ class User
     protected $homeDir;
     protected $rights;
 
-    public function __construct($homeDir, array $rights) {
+    public function __construct($homeDir, array $rights)
+    {
         if (!file_exists($homeDir)) {
             throw new Exception(__METHOD__ . " - directory " . $homeDir . " does not exist");
         }
@@ -27,17 +28,20 @@ class User
         $this->homeDir = $homeDir;
     }
 
-    public function hasPermission($path) {
+    public function hasPermission($path)
+    {
         if ($this->hasRight(UserRight::ADMIN)) {
             return true;
         }
     }
 
-    public function isAdmin() {
+    public function isAdmin()
+    {
         return $this->hasRight(UserRight::ADMIN);
     }
 
-    public function hasRight($right) {
+    public function hasRight($right)
+    {
         foreach ($this->rights as $curRight) {
             if ($curRight === $right) {
                 return true;
@@ -47,7 +51,8 @@ class User
         return false;
     }
 
-    public function getRights() {
+    public function getRights()
+    {
         return $this->rights;
     }
 }

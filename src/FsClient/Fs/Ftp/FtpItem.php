@@ -13,7 +13,12 @@ use \Tertere\FsClient\Fs\AbstractItem;
  */
 class FtpItem extends AbstractItem
 {
-    public $permissions, $num, $owner, $group, $size, $date;
+    public $permissions;
+    public $num;
+    public $owner;
+    public $group;
+    public $size;
+    public $date;
 
     public function __construct($ftpRawListString, $path, $parentHash = "")
     {
@@ -54,7 +59,7 @@ class FtpItem extends AbstractItem
     private function getFileExtension($file)
     {
         $explodedFilename   = explode(".", $file);
-        if(count($explodedFilename) > 1) {
+        if (count($explodedFilename) > 1) {
             return $explodedFilename[count($explodedFilename) -1];
         } else {
             return null;
@@ -68,7 +73,7 @@ class FtpItem extends AbstractItem
 
     public function isDir()
     {
-        if(substr($this->permissions, 0, 1) == "d") {
+        if (substr($this->permissions, 0, 1) == "d") {
             return true;
         }
 

@@ -17,11 +17,13 @@ class UserRight
         self::ADMIN, self::USER
     ];
 
-    public static function getAllRights() {
+    public static function getAllRights()
+    {
         return self::$all;
     }
 
-    public static function rightExists($right) {
+    public static function rightExists($right)
+    {
         foreach (self::$all as $item) {
             if ($item === $right) {
                 return true;

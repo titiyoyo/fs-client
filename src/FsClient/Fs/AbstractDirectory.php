@@ -8,8 +8,6 @@
 
 namespace Tertere\FsClient\Fs;
 
-
 class AbstractDirectory
 {
-
 }

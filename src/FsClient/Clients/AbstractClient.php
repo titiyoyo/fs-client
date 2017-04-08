@@ -9,11 +9,11 @@ use Tertere\FsClient\User\FsUser;
 use Tertere\FsClient\User\UserRight;
 use Tertere\FsClient\Utilities\Logger;
 
-abstract class AbstractClient {
-
-	protected $logger;
-	protected $config;
-	protected $user;
+abstract class AbstractClient
+{
+    protected $logger;
+    protected $config;
+    protected $user;
 
     abstract public function isConfigured();
     abstract public function get($file);
@@ -21,38 +21,41 @@ abstract class AbstractClient {
     abstract public function mkdir($path);
     abstract public function getRelativePath($file, $path);
 
-	/**
-		indexes list:
-		config 		-> the whole $settingsArray parameters array
-		rootDir 	-> files root dir (ftp or local)
-		tmpDir 		-> local temp dir
-		homeDir 	-> user root dir
-		logger 		-> an sfLogger instance (optional)
-	*/
-	public function __construct($user, $config, LoggerInterface $logger) {
+    /**
+        indexes list:
+        config 		-> the whole $settingsArray parameters array
+        rootDir 	-> files root dir (ftp or local)
+        tmpDir 		-> local temp dir
+        homeDir 	-> user root dir
+        logger 		-> an sfLogger instance (optional)
+    */
+    public function __construct($user, $config, LoggerInterface $logger)
+    {
         $this->user = $user;
-		$this->config = $config;
-		$this->logger = new Logger($logger, new VarCloner(), new VarDumper());
-	}
+        $this->config = $config;
+        $this->logger = new Logger($logger, new VarCloner(), new VarDumper());
+    }
 
-    public function hasPermission($path) {
-		return $this->user->hasPermission($path);
-	}
+    public function hasPermission($path)
+    {
+        return $this->user->hasPermission($path);
+    }
 
-	public function getBreadcumbArray($path) {
-		$absolutePath = realpath($this->rootDir);
-		$homeDirAbsolutePath = realpath($absolutePath . "/" . $this->homeDir);
-		$relativeHome = str_replace($absolutePath, "", $homeDirAbsolutePath);
+    public function getBreadcumbArray($path)
+    {
+        $absolutePath = realpath($this->rootDir);
+        $homeDirAbsolutePath = realpath($absolutePath . "/" . $this->homeDir);
+        $relativeHome = str_replace($absolutePath, "", $homeDirAbsolutePath);
 
-		return 
-			explode("/",
-				preg_replace(
-					"#^/?/#", 
-					"",
-					str_replace($this->homeDir, "", $relativeHome . "/" . $path)
-				)
-			);
-	}
+        return
+            explode("/",
+                preg_replace(
+                    "#^/?/#",
+                    "",
+                    str_replace($this->homeDir, "", $relativeHome . "/" . $path)
+                )
+            );
+    }
 
     public function compress(array $pathArray)
     {
@@ -64,11 +67,11 @@ abstract class AbstractClient {
         $filesCount = count($pathArray);
 
         if (!$zip->open($outputPath, \ZipArchive::CREATE)) {
-            throw new \Exception( "Impossible d'ouvrir le fichier <$zipFileName>\n");
+            throw new \Exception("Impossible d'ouvrir le fichier <$zipFileName>\n");
         }
 
         if ($filesCount > 1) {
-            foreach($pathArray as $file) {
+            foreach ($pathArray as $file) {
                 $zip->addFile($this->getRootDir() . "/" . $file, basename($file));
             }
 
@@ -80,5 +83,3 @@ abstract class AbstractClient {
         }
     }
 }
-
-?>

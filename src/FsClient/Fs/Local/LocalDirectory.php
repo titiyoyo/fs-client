@@ -7,8 +7,8 @@ use Symfony\Component\Filesystem\Filesystem;
 use Tertere\FsClient\Fs\AbstractDirectory;
 use \Tertere\FsClient\Fs\Local\LocalItem;
 
-class LocalDirectory extends AbstractDirectory {
-
+class LocalDirectory extends AbstractDirectory
+{
     private $excludedFiles = [
         ".", "..", ".DS_Store"
     ];
@@ -23,33 +23,49 @@ class LocalDirectory extends AbstractDirectory {
 
     public function __construct($path)
     {
-        if (!realpath($path))
-	        throw new Exception(__METHOD__ . " - path $path does not exist");
+        if (!realpath($path)) {
+            throw new Exception(__METHOD__ . " - path $path does not exist");
+        }
 
         $this->path = $path;
         $this->scanDir($this->path);
 
         $this->oFs = new Filesystem();
         $this->deleted = false;
-	}
+    }
 
-    public function getFiles() {
+    public function getFiles()
+    {
         return $this->files;
     }
 
-    public function getDirs() {
+    public function getDirs()
+    {
         return $this->dirs;
     }
 
-    public function getLinks() {
+    public function getLinks()
+    {
         return $this->links;
     }
 
-    public function isEmpty() {
+    public function isEmpty()
+    {
         return (bool)count($this->items);
     }
 
-	private function scanDir($path) {
+    public function getExcludedFiles(): array
+    {
+        return $this->excludedFiles;
+    }
+
+    public function setExcludedFiles(array $excludedFiles)
+    {
+        return $this->excludedFiles;
+    }
+
+    private function scanDir($path)
+    {
         $files = scandir($path);
 
         foreach ($files as $item) {
@@ -69,7 +85,8 @@ class LocalDirectory extends AbstractDirectory {
         }
     }
 
-    public function delete() {
+    public function delete()
+    {
         if ($this->oFs->remove($this->path)) {
             unset($this->items);
             unset($this->dirs);
@@ -83,9 +100,8 @@ class LocalDirectory extends AbstractDirectory {
         return false;
     }
 
-    public function rename($newname) {
+    public function rename($newname)
+    {
         return $this->oFs->rename($this->path, dirname($this->path) . "/" . $newname);
-	}
+    }
 }
-
-?>

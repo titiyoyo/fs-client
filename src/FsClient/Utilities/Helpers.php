@@ -8,8 +8,6 @@
 
 namespace Tertere\FsClient\Utilities;
 
-
 class Helpers
 {
-
 }

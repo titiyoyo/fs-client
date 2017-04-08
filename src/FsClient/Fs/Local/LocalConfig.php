@@ -8,21 +8,46 @@
 
 namespace Tertere\FsClient\Fs\Local;
 
+use Tertere\FsClient\Exception\FsClientConfigException;
+
 class LocalConfig
 {
-    private $defaultPermissions = 755;
+    private $defaultPermissions = 2755;
 
     public function __construct($paramsArray)
     {
-        if (!isset($paramsArray["rootDir"]))
-            throw new \Exception();
-
+        $this->validateConfiguration($paramsArray);
         $this->rootDir = $paramsArray["rootDir"];
         $this->tmpDir = $paramsArray["tmpDir"];
         $this->defaultPermissions = $paramsArray["defaultPermissions"] ?? null;
     }
 
-    public function isConfigured() {
+    private function validateConfiguration($paramsArray)
+    {
+        if (!isset($paramsArray["rootDir"])) {
+            throw new FsClientConfigException(__METHOD__ . " - no root dir set");
+        }
+
+        if (!$this->validateDir($paramsArray["rootDir"])) {
+            throw new FsClientConfigException(__METHOD__ . " - root dir is invalid");
+        }
+
+        if (!isset($paramsArray["tmpDir"])) {
+            throw new FsClientConfigException(__METHOD__ . " - no temp dir set");
+        }
+
+        if (!$this->validateDir($paramsArray["tmpDir"])) {
+            throw new FsClientConfigException(__METHOD__ . " - temp dir is invalid");
+        }
+    }
+
+    private function validateDir($path)
+    {
+        return realpath($path);
+    }
+
+    public function isConfigured()
+    {
         if (is_readable($this->tmpDir) && is_writable($this->tmpDir)) {
             return true;
         }
@@ -30,7 +55,8 @@ class LocalConfig
         throw new \Exception(__METHOD__ . " - Cannot read or write from root directory at line " . __LINE__ . " ");
     }
 
-    public function toArray() {
+    public function toArray()
+    {
         return [
             "rootDir" => $this->rootDir,
             "tmpDir" => $this->tmpDir,
@@ -51,7 +77,12 @@ class LocalConfig
      */
     public function setRootDir($rootDir)
     {
+        if (!$this->validateDir($rootDir)) {
+            throw new FsClientConfigException(__METHOD__ . " - root dir is invalid");
+        }
+
         $this->rootDir = $rootDir;
+        return $this;
     }
 
     /**
@@ -67,7 +98,12 @@ class LocalConfig
      */
     public function setTmpDir($tmpDir)
     {
+        if (!$this->validateDir($tmpDir)) {
+            throw new FsClientConfigException(__METHOD__ . " - temp dir is invalid");
+        }
+
         $this->tmpDir = $tmpDir;
+        return $this;
     }
 
     /**
@@ -84,5 +120,6 @@ class LocalConfig
     public function setDefaultPermissions($defaultPermissions)
     {
         $this->defaultPermissions = $defaultPermissions;
+        return $this;
     }
 }

@@ -8,8 +8,6 @@
 
 namespace Tertere\Test;
 
-
 class LocalClientTest
 {
-
 }

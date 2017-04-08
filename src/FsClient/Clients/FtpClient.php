@@ -12,13 +12,11 @@ use Tertere\FsClient\Clients\AbstractClient;
 
 class FtpClient extends AbstractClient
 {
-
-
-    public function isConfigured() {
-
+    public function isConfigured()
+    {
     }
 
-    public function getAbsolutePath($path) {
-
+    public function getAbsolutePath($path)
+    {
     }
 }

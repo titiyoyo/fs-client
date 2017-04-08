@@ -19,7 +19,8 @@ class LocalClient extends AbstractClient
     private $fsObj;
     private $currentDir;
 
-    public function __construct($configSettings, LoggerInterface $logger) {
+    public function __construct($configSettings, LoggerInterface $logger)
+    {
         $config = new LocalConfig($configSettings);
         $user = new FsUser($config->getHomeDir(), [UserRight::ADMIN, UserRight::USER]);
         $this->fsObj = new Filesystem();
@@ -37,7 +38,8 @@ class LocalClient extends AbstractClient
         return new LocalDirectory($path);
     }
 
-    public function setCurrentDir($path) {
+    public function setCurrentDir($path)
+    {
         $absPath = null;
         if ($this->fsObj->isAbsolutePath($path)) {
             $absPath = $path;
@@ -57,7 +59,8 @@ class LocalClient extends AbstractClient
         return $file->getRelativePath($path);
     }
 
-    public function mkdir($path) {
+    public function mkdir($path)
+    {
         try {
             if (!$this->fsObj->exists($path) && $this->hasPermission($path)) {
                 $this->fsObj->mkdir($path);
@@ -68,31 +71,34 @@ class LocalClient extends AbstractClient
     }
 
 
-    public function delete($path) {
+    public function delete($path)
+    {
         try {
             if ($this->hasPermission($path)) {
                 return unlink($this->user->getHomeDir() . "/" . $path);
             }
         } catch (IOExceptionInterface $e) {
-             "An error occurred while creating your directory at ".$e->getPath();
+            "An error occurred while creating your directory at ".$e->getPath();
         }
     }
 
-    public function get($path) {
-
-
+    public function get($path)
+    {
         throw new \Exception(__METHOD__ . " - File " . $path . " does not exist on line " . __LINE__ . " in file " . __FILE__, 1);
     }
 
-    public function getRootDir() {
+    public function getRootDir()
+    {
         return $this->config->getRootDir();
     }
 
-    public function getTmpDir() {
+    public function getTmpDir()
+    {
         return $this->config->getTmpDir();
     }
 
-    public function getHomeDir() {
+    public function getHomeDir()
+    {
         return $this->user->getHomeDir();
     }
 }

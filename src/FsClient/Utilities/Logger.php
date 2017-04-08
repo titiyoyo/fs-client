@@ -27,7 +27,8 @@ class Logger
         $this->dumper = $dumper;
     }
 
-    public function log($data, $type = self::TYPE_INFO) {
+    public function log($data, $type = self::TYPE_INFO)
+    {
         $cliOutput = null;
         if (is_array($data)) {
             $cliOutput = $this->dumpArray($data);
@@ -51,11 +52,13 @@ class Logger
         }
     }
 
-    public function dumpException($exception) {
+    public function dumpException($exception)
+    {
         return $exception->getMessage() . " at line " . $exception->getLine() . " in file " . $exception->getFile();
     }
 
-    public function dumpArray($data) {
+    public function dumpArray($data)
+    {
         $output = null;
         $this->dumper->dump(
             $this->cloner->cloneVar($data),

@@ -18,12 +18,10 @@ class Validation
      */
     public static function checkIdx($idx, $array)
     {
-        if(isset($array[$idx]) && !empty($array[$idx])) {
+        if (isset($array[$idx]) && !empty($array[$idx])) {
             return true;
         }
 
         return false;
     }
-
-
 }

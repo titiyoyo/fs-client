@@ -12,5 +12,4 @@ use Tertere\FsClient\Fs\AbstractConfig;
 
 class FtpConfig extends AbtractConfig
 {
-
 }

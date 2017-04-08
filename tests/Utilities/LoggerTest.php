@@ -1,6 +1,7 @@
 <?php
 
 namespace Tertere\Test;
+
 use \PHPUnit\Framework\TestCase;
 use Tertere\FsClient\Utilities\Logger;
 use Symfony\Component\VarDumper\Dumper\CliDumper;
@@ -9,7 +10,7 @@ use Symfony\Component\VarDumper\Cloner\VarCloner;
 class LoggerTest extends TestCase
 {
     public function testLogger()
-	{
+    {
         $logger = new Logger(
             $this->getMockLoggerInterface(),
             $this->getMockVarCloner(),
@@ -28,11 +29,12 @@ class LoggerTest extends TestCase
 
         $logger->info("test");
         $this->assertTrue(true);
-	}
+    }
 
 
 
-	public function getMockLoggerInterface() {
+    public function getMockLoggerInterface()
+    {
         return $this->getMockBuilder("Psr\\Log\\LoggerInterface")
             ->setMethods([
                 "debug",
@@ -43,7 +45,8 @@ class LoggerTest extends TestCase
             ->getMock();
     }
 
-	public function getMockVarCloner() {
+    public function getMockVarCloner()
+    {
         return $this->getMockBuilder(VarCloner::class)
             ->setConstructorArgs([])
             ->setMethods([
@@ -52,7 +55,8 @@ class LoggerTest extends TestCase
             ->getMock();
     }
 
-    public function getMockCliDumper() {
+    public function getMockCliDumper()
+    {
         $stub = $this->getMockBuilder(CliDumper::class)
             ->setConstructorArgs([])
             ->setMethods([
@@ -65,5 +69,3 @@ class LoggerTest extends TestCase
         return $stub;
     }
 }
-
-?>
