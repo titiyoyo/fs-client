@@ -8,7 +8,6 @@ abstract class AbstractItem
     private $audio_formats      = ["MP3", "AIFF", "AIF", "WAV", "PCM", "M4A"];
     private $photo_formats        = ["JPG", "PNG", "TIFF", "BMP", "GIF"];
 
-    protected $localPath;
     protected $mimeType;
     protected $dirname;
     protected $filename;
@@ -16,7 +15,7 @@ abstract class AbstractItem
     protected $isDir;
     protected $isFile;
     protected $isLink;
-    protected $absolutePath;
+    protected $path;
     protected $extension;
     protected $creationDate;
     protected $modificationDate;
@@ -26,7 +25,7 @@ abstract class AbstractItem
 
     public function toJson()
     {
-        return $this->json_encode($this->toArray(), true);
+        return json_encode($this->toArray());
     }
 
     public function getType()

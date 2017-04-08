@@ -1,11 +1,11 @@
 <?php
 
-namespace Tertere\Fs\Local;
+namespace Tertere\FsClient\Fs\Local;
 
 use PHPUnit\Runner\Exception;
 use Symfony\Component\Filesystem\Filesystem;
 use Tertere\FsClient\Fs\AbstractDirectory;
-use \Tertere\FsClient\Fs\Local\LocalItem;
+use Tertere\FsClient\Fs\Local\LocalItem;
 
 class LocalDirectory extends AbstractDirectory
 {
@@ -14,7 +14,6 @@ class LocalDirectory extends AbstractDirectory
     ];
 
     private $oFs;
-    private $path;
     private $deleted;
     private $items = [];
     private $dirs = [];
@@ -23,33 +22,32 @@ class LocalDirectory extends AbstractDirectory
 
     public function __construct($path)
     {
-        if (!realpath($path)) {
-            throw new Exception(__METHOD__ . " - path $path does not exist");
+        if ($this->validatePath($path)) {
+            $this->setPath(realpath($path));
         }
 
-        $this->path = $path;
         $this->scanDir($this->path);
 
         $this->oFs = new Filesystem();
         $this->deleted = false;
     }
 
-    public function getFiles()
+    public function getFiles(): array
     {
         return $this->files;
     }
 
-    public function getDirs()
+    public function getDirs(): array
     {
         return $this->dirs;
     }
 
-    public function getLinks()
+    public function getLinks(): array
     {
         return $this->links;
     }
 
-    public function isEmpty()
+    public function isEmpty(): bool
     {
         return (bool)count($this->items);
     }
@@ -64,7 +62,12 @@ class LocalDirectory extends AbstractDirectory
         return $this->excludedFiles;
     }
 
-    private function scanDir($path)
+    public function validatePath($path): bool
+    {
+        return (bool)realpath($path);
+    }
+
+    private function scanDir($path): LocalDirectory
     {
         $files = scandir($path);
 
@@ -83,9 +86,15 @@ class LocalDirectory extends AbstractDirectory
                 }
             }
         }
+
+        return $this;
     }
 
-    public function delete()
+    public function createSubDir()
+    {
+    }
+
+    public function delete(): bool
     {
         if ($this->oFs->remove($this->path)) {
             unset($this->items);
@@ -102,6 +111,9 @@ class LocalDirectory extends AbstractDirectory
 
     public function rename($newname)
     {
-        return $this->oFs->rename($this->path, dirname($this->path) . "/" . $newname);
+        $renamedDir = dirname($this->path) . "/" . basename($newname);
+        $this->oFs->rename($this->path, $renamedDir);
+        $this->path = realpath($renamedDir);
+        return $this;
     }
 }

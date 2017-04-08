@@ -8,6 +8,26 @@
 
 namespace Tertere\FsClient\Fs;
 
-class AbstractDirectory
+use Tertere\FsClient\Exception\FsClientConfigException;
+
+abstract class AbstractDirectory
 {
+    protected $path;
+
+    public function getPath()
+    {
+        return $this->path;
+    }
+
+    public function setPath($path)
+    {
+        if ($this->validatePath($path)) {
+            $this->path = $path;
+            return $this;
+        }
+
+        throw new FsClientConfigException(__METHOD__ . " - invalid path " . $path);
+    }
+
+    abstract public function validatePath($path): bool;
 }

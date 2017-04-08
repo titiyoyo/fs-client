@@ -1,5 +1,7 @@
 <?php
 
+include_once realpath("./vendor/autoload.php");
+
 spl_autoload_register(
     function () {
         include_once realpath('./src/FsClient/Clients/AbstractClient.php');

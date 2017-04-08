@@ -40,14 +40,14 @@ class Logger
 
         switch (strtoupper($type)) {
             case self::TYPE_DEBUG:
-                $this->debug($cliOutput);
+                $this->logger->debug($cliOutput);
                 break;
             case self::TYPE_ERROR:
-                $this->error($cliOutput);
+                $this->logger->error($cliOutput);
                 break;
             case self::TYPE_INFO:
             default:
-                $this->info($cliOutput);
+                $this->logger->info($cliOutput);
                 break;
         }
     }
@@ -75,16 +75,16 @@ class Logger
 
     public function debug($message = null)
     {
-        $this->logger->debug($message);
+        $this->log($message, self::TYPE_DEBUG);
     }
 
     public function info($message = null)
     {
-        $this->logger->log($message);
+        $this->log($message, self::TYPE_INFO);
     }
 
     public function error($message = null)
     {
-        $this->logger->error($message);
+        $this->log($message, self::TYPE_ERROR);
     }
 }

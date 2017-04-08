@@ -6,6 +6,7 @@ use \PHPUnit\Framework\TestCase;
 use Tertere\FsClient\Utilities\Logger;
 use Symfony\Component\VarDumper\Dumper\CliDumper;
 use Symfony\Component\VarDumper\Cloner\VarCloner;
+use Psr\Log\LoggerInterface;
 
 class LoggerTest extends TestCase
 {
@@ -35,36 +36,17 @@ class LoggerTest extends TestCase
 
     public function getMockLoggerInterface()
     {
-        return $this->getMockBuilder("Psr\\Log\\LoggerInterface")
-            ->setMethods([
-                "debug",
-                "info",
-                "error",
-                "log"
-            ])
-            ->getMock();
+        return $this->createMock(LoggerInterface::class);
     }
 
     public function getMockVarCloner()
     {
-        return $this->getMockBuilder(VarCloner::class)
-            ->setConstructorArgs([])
-            ->setMethods([
-                "cloneVar"
-            ])
-            ->getMock();
+        return $this->createMock(VarCloner::class);
     }
 
     public function getMockCliDumper()
     {
-        $stub = $this->getMockBuilder(CliDumper::class)
-            ->setConstructorArgs([])
-            ->setMethods([
-                "dump"
-            ])
-            ->getMock();
-        $stub->method("dump")
-            ->willReturn("Array");
+        $stub = $this->createMock(CliDumper::class);
 
         return $stub;
     }
