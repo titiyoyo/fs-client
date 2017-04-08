@@ -56,6 +56,10 @@ abstract class AbstractItem
         return $this->isFile;
     }
 
+    public function getPath() {
+        return $this->path;
+    }
+
     protected function formatSize($str)
     {
         $str = trim($str);

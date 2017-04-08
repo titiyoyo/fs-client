@@ -115,6 +115,23 @@ class LocalItemTest extends TestCase
 
     public function testGetRelativePathTo()
     {
+        $paths = self::getPaths();
+        $localFile = new LocalItem($paths["file"]);
+        $relativePath = $localFile->getRelativePathTo(".");
+        $this->assertEquals(".", $relativePath);
+        $relativePath = $localFile->getRelativePathTo("..");
+        $this->assertEquals("..", $relativePath);
+        $relativePath = $localFile->getRelativePathTo("/Users");
+        $this->assertEquals("../../../..", $relativePath);
+        $relativePath = $localFile->getRelativePathTo("/");
+        $this->assertEquals("../../../../..", $relativePath);
+        $relativePath = $localFile->getRelativePathTo($paths["file"]);
+        $this->assertEquals(".", $relativePath);
+        $relativePath = $localFile->getRelativePathTo("./toto/truc");
+        $this->assertEquals("./toto/truc", $relativePath);
+        $relativePath = $localFile->getRelativePathTo("toto/truc");
+        $this->assertEquals("toto/truc", $relativePath);
+
     }
 
     private function checkFileExistence($file)
