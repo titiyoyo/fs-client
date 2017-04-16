@@ -36,6 +36,11 @@ class LocalDirectory extends AbstractDirectory
         return $this->items[$idx];
     }
 
+    public function getItems(): array
+    {
+        return $this->items;
+    }
+
     public function getFiles(): array
     {
         return $this->files;

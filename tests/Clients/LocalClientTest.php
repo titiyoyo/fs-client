@@ -20,16 +20,19 @@ class LocalClientTest extends TestCase
     private $testDir = "./tmp/localClientTest";
     private $testDirRenamed = "./tmp/localClientTestRenamed";
 
-    public function testConstruct() {
+    public function testBrowse() {
         $paths = $this->setupTest();
         $client = new LocalClient(
             $this->getConfig(),
             $this->getLogger()
         );
 
-        var_dump(
-            $client->browse("/")
-        );
+        $dir = $client->browse("..");
+        $this->assertEquals($dir->getPath(), realpath($client->getRootDir() . "/.."));
+        $dir = $client->browse(dirname($paths["dir"]));
+        $this->assertEquals(2, count($dir->getFiles()));
+        $this->assertEquals( 3, count($dir->getItems()));
+        $this->assertEquals( 1, count($dir->getDirs()));
     }
 
     private function getConfig() {

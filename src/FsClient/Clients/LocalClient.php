@@ -34,23 +34,23 @@ class LocalClient extends AbstractClient
     public function browse($path): LocalDirectory
     {
         $this->currentDir = $this->setCurrentDir($path);
-        return new LocalDirectory($path);
+        return new LocalDirectory($this->currentDir);
     }
 
     public function setCurrentDir($path)
     {
-        $absPath = null;
-        if ($this->fsObj->isAbsolutePath($path)) {
-            $absPath = $path;
-        } elseif ($this->fsObj->exists($this->config->getRootDir() . "/" . $path)) {
+        $absPath = $path;
+        if (!$this->fsObj->isAbsolutePath($path)) {
             $absPath = $this->config->getRootDir() . "/" . $path;
         }
 
-        if (realpath($absPath)) {
+        $absPath = realpath($absPath);
+
+        if (!empty($absPath)) {
             return $absPath;
         }
 
-        throw new \Exception(__METHOD__  . " - path $path is invalid");
+        throw new \Exception(__METHOD__  . " - path $absPath is invalid");
     }
 
     public function getRelativePath($file, $path)
