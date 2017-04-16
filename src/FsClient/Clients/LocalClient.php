@@ -8,23 +8,22 @@
 
 namespace Tertere\FsClient\Clients;
 
+use Psr\Log\LoggerInterface;
 use Tertere\FsClient\Fs\Local\LocalConfig;
 use Tertere\FsClient\Fs\Local\LocalDirectory;
-use Tertere\FsClient\User\FsUser;
+use Tertere\FsClient\User\User;
 use Symfony\Component\Filesystem\Filesystem;
-use Symfony\Component\Filesystem\Exception\IOExceptionInterfaceuse;
+use Symfony\Component\Filesystem\Exception\IOExceptionInterface;
 
 class LocalClient extends AbstractClient
 {
     private $fsObj;
     private $currentDir;
 
-    public function __construct($configSettings, LoggerInterface $logger)
+    public function __construct(LocalConfig $config, LoggerInterface $logger)
     {
-        $config = new LocalConfig($configSettings);
-        $user = new FsUser($config->getHomeDir(), [UserRight::ADMIN, UserRight::USER]);
         $this->fsObj = new Filesystem();
-        parent::__construct($user, $config, $logger);
+        parent::__construct($config, $logger);
     }
 
     public function isConfigured()

@@ -4,9 +4,10 @@ namespace Tertere\FsClient\Clients;
 
 use Psr\Log\LoggerInterface;
 use Symfony\Component\VarDumper\Cloner\VarCloner;
+use Symfony\Component\VarDumper\Dumper\CliDumper;
 use Symfony\Component\VarDumper\VarDumper;
+use Tertere\FsClient\Fs\ConfigInterface;
 use Tertere\FsClient\User\FsUser;
-use Tertere\FsClient\User\UserRight;
 use Tertere\FsClient\Utilities\Logger;
 
 abstract class AbstractClient
@@ -29,11 +30,10 @@ abstract class AbstractClient
         homeDir 	-> user root dir
         logger 		-> an sfLogger instance (optional)
     */
-    public function __construct($user, $config, LoggerInterface $logger)
+    public function __construct(ConfigInterface $config, LoggerInterface $logger)
     {
-        $this->user = $user;
         $this->config = $config;
-        $this->logger = new Logger($logger, new VarCloner(), new VarDumper());
+        $this->logger = new Logger($logger, new VarCloner(), new CliDumper());
     }
 
     public function hasPermission($path)

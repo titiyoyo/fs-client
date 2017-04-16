@@ -31,8 +31,9 @@ class LocalDirectory extends AbstractDirectory
         $this->deleted = false;
     }
 
-    public function get()
+    public function get($idx)
     {
+        return $this->items[$idx];
     }
 
     public function getFiles(): array

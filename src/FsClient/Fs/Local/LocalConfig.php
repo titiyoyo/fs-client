@@ -9,20 +9,14 @@
 namespace Tertere\FsClient\Fs\Local;
 
 use Tertere\FsClient\Exception\FsClientConfigException;
+use Tertere\FsClient\Fs\AbstractConfig;
+use Tertere\FsClient\Fs\ConfigInterface;
 
-class LocalConfig
+class LocalConfig extends AbstractConfig implements ConfigInterface
 {
-    private $defaultPermissions = 2755;
+    protected $defaultPermissions = 2755;
 
-    public function __construct($paramsArray)
-    {
-        $this->validateConfiguration($paramsArray);
-        $this->rootDir = $paramsArray["rootDir"];
-        $this->tmpDir = $paramsArray["tmpDir"];
-        $this->defaultPermissions = $paramsArray["defaultPermissions"] ?? null;
-    }
-
-    private function validateConfiguration($paramsArray)
+    public function validateConfiguration($paramsArray)
     {
         if (!isset($paramsArray["rootDir"])) {
             throw new FsClientConfigException(__METHOD__ . " - no root dir set");

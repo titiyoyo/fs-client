@@ -8,20 +8,22 @@
 
 namespace Tertere\FsClient\Fs;
 
-abstract class AbstractConfig
+abstract class AbstractConfig implements ConfigInterface
 {
-    private $rootDir;
-    private $tmpDir;
-    private $settingsArray;
+    protected $rootDir;
+    protected $tmpDir;
+    protected $settingsArray;
 
-    public function __construct($settingsArray)
+    final public function __construct($settingsArray)
     {
-        $this->rootDir = $settingsArray["rootDir"] ?? null;
-        $this->tmpDir = $settingsArray["tmpDir"] ?? null;
+        $this->validateConfiguration($settingsArray);
+        $this->rootDir = $settingsArray["rootDir"];
+        $this->tmpDir = $settingsArray["tmpDir"];
+        $this->defaultPermissions = $settingsArray["defaultPermissions"] ?? null;
         $this->settingsArray = $settingsArray;
     }
 
-    abstract public function validate();
+    abstract public function validateConfiguration($settingsArray);
 
     /**
      * @return null
@@ -36,7 +38,12 @@ abstract class AbstractConfig
      */
     public function setRootDir($rootDir)
     {
+        if (!$this->validateDir($rootDir)) {
+            throw new FsClientConfigException(__METHOD__ . " - root dir is invalid");
+        }
+
         $this->rootDir = $rootDir;
+        return $this;
     }
 
     /**
@@ -52,8 +59,14 @@ abstract class AbstractConfig
      */
     public function setTmpDir($tmpDir)
     {
+        if (!$this->validateDir($tmpDir)) {
+            throw new FsClientConfigException(__METHOD__ . " - tmp dir is invalid");
+        }
+
         $this->tmpDir = $tmpDir;
+        return $this;
     }
+
 
     /**
      * @return mixed
