@@ -73,4 +73,84 @@ abstract class AbstractItem
             return "{$str} octets";
         }
     }
+
+    /**
+     * @return mixed
+     */
+    public function getMimeType()
+    {
+        return $this->mimeType;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getDirname()
+    {
+        return $this->dirname;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getFilename()
+    {
+        return $this->filename;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getSize()
+    {
+        return $this->size;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getIsDir()
+    {
+        return $this->isDir;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getIsFile()
+    {
+        return $this->isFile;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getIsLink()
+    {
+        return $this->isLink;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getExtension()
+    {
+        return $this->extension;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getCreationDate()
+    {
+        return $this->creationDate;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getModificationDate()
+    {
+        return $this->modificationDate;
+    }
 }
