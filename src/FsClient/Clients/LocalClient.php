@@ -17,6 +17,8 @@ use Symfony\Component\Filesystem\Exception\IOExceptionInterface;
 
 class LocalClient extends AbstractClient
 {
+    const MODE = 0;
+
     private $fsObj;
     private $currentDir;
 
