@@ -36,6 +36,11 @@ abstract class AbstractClient
         $this->logger = new Logger($logger, new VarCloner(), new CliDumper());
     }
 
+    public function getConfig() :ConfigInterface
+    {
+        return $this->config;
+    }
+
     public function hasPermission($path)
     {
         return $this->user->hasPermission($path);
