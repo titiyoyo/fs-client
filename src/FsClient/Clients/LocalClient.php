@@ -11,6 +11,7 @@ namespace Tertere\FsClient\Clients;
 use Psr\Log\LoggerInterface;
 use Tertere\FsClient\Fs\Local\LocalConfig;
 use Tertere\FsClient\Fs\Local\LocalDirectory;
+use Tertere\FsClient\Fs\Local\LocalItem;
 use Tertere\FsClient\User\User;
 use Symfony\Component\Filesystem\Filesystem;
 use Symfony\Component\Filesystem\Exception\IOExceptionInterface;
@@ -85,7 +86,10 @@ class LocalClient extends AbstractClient
 
     public function get($path)
     {
-        throw new \Exception(__METHOD__ . " - File " . $path . " does not exist on line " . __LINE__ . " in file " . __FILE__, 1);
+        if (!$this->fsObj->exists($path))
+            throw new \Exception(__METHOD__ . " - File " . $path . " does not exist on line " . __LINE__ . " in file " . __FILE__, 1);
+
+        return new LocalItem($path);
     }
 
     public function getRootDir()
