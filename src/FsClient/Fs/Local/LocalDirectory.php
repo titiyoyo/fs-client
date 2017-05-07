@@ -83,7 +83,7 @@ class LocalDirectory extends AbstractDirectory
         foreach ($files as $item) {
             if (!in_array($item, $this->excludedFiles)) {
                 $oItem = new LocalItem($path . "/" . $item);
-                $this->items[] = $item;
+                $this->items[] = $oItem;
                 if ($oItem->isDir()) {
                     $this->dirs[] = $oItem;
                 }
