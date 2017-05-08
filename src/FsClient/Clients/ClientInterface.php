@@ -13,6 +13,6 @@ interface ClientInterface
     public function mkdir($path);
     public function getRelativePath($file, $path): string;
     public function getConfig(): ConfigInterface;
-    public function delete(): bool;
+    public function delete($path): bool;
 
 }

@@ -9,6 +9,7 @@
 namespace Tertere\FsClient\Clients;
 
 use Psr\Log\LoggerInterface;
+use Tertere\FsClient\Fs\ItemInterface;
 use Tertere\FsClient\Fs\Local\LocalConfig;
 use Tertere\FsClient\Fs\Local\LocalDirectory;
 use Tertere\FsClient\Fs\Local\LocalItem;
@@ -56,7 +57,7 @@ class LocalClient extends AbstractClient implements ClientInterface
         throw new \Exception(__METHOD__  . " - path $absPath is invalid");
     }
 
-    public function getRelativePath($file, $path)
+    public function getRelativePath($file, $path): string
     {
         return $file->getRelativePath($path);
     }
@@ -73,7 +74,7 @@ class LocalClient extends AbstractClient implements ClientInterface
     }
 
 
-    public function delete($path)
+    public function delete($path): bool
     {
         try {
             if ($this->hasPermission($path)) {
@@ -84,7 +85,7 @@ class LocalClient extends AbstractClient implements ClientInterface
         }
     }
 
-    public function get($path)
+    public function get($path): ItemInterface
     {
         if (!$this->fsObj->exists($path))
             throw new \Exception(__METHOD__ . " - File " . $path . " does not exist on line " . __LINE__ . " in file " . __FILE__, 1);
