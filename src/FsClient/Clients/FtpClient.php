@@ -15,7 +15,7 @@ class FtpClient extends AbstractClient implements ClientInterface
 {
     const MODE = 2;
 
-    public function delete(): bool
+    public function delete($path)
     {
         // TODO: Implement delete() method.
     }
