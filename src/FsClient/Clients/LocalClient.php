@@ -74,7 +74,7 @@ class LocalClient extends AbstractClient implements ClientInterface
     }
 
 
-    public function delete($path): bool
+    public function delete($path)
     {
         try {
             if ($this->hasPermission($path)) {
