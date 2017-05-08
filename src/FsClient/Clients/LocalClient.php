@@ -29,7 +29,7 @@ class LocalClient extends AbstractClient implements ClientInterface
         parent::__construct($config, $logger);
     }
 
-    public function isConfigured()
+    public function isConfigured(): bool
     {
         return $this->config->isConfigured();
     }
