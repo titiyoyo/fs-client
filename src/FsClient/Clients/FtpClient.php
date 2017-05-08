@@ -9,17 +9,23 @@
 namespace Tertere\FsClient\Clients;
 
 use Tertere\FsClient\Clients\AbstractClient;
+use Tertere\FsClient\Fs\ItemInterface;
 
-class FtpClient extends AbstractClient
+class FtpClient extends AbstractClient implements ClientInterface
 {
     const MODE = 2;
 
-    public function getRelativePath($file, $path)
+    public function delete(): bool
+    {
+        // TODO: Implement delete() method.
+    }
+
+    public function getRelativePath($file, $path): string
     {
         // TODO: Implement getRelativePath() method.
     }
 
-    public function get($file)
+    public function get($file): ItemInterface
     {
         // TODO: Implement get() method.
     }
@@ -34,11 +40,11 @@ class FtpClient extends AbstractClient
         // TODO: Implement browse() method.
     }
 
-    public function isConfigured()
+    public function isConfigured(): bool
     {
     }
 
-    public function getAbsolutePath($path)
+    public function getAbsolutePath($path): string
     {
     }
 }

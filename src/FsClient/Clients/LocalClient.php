@@ -16,7 +16,7 @@ use Tertere\FsClient\User\User;
 use Symfony\Component\Filesystem\Filesystem;
 use Symfony\Component\Filesystem\Exception\IOExceptionInterface;
 
-class LocalClient extends AbstractClient
+class LocalClient extends AbstractClient implements ClientInterface
 {
     const MODE = 1;
 
@@ -100,10 +100,5 @@ class LocalClient extends AbstractClient
     public function getTmpDir()
     {
         return $this->config->getTmpDir();
-    }
-
-    public function getHomeDir()
-    {
-        return $this->user->getHomeDir();
     }
 }
