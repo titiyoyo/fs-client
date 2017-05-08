@@ -84,4 +84,9 @@ class FtpItem extends AbstractItem
     {
         return json_encode($this->getInfoArray());
     }
+
+    public function toArray()
+    {
+
+    }
 }

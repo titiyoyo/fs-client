@@ -5,6 +5,7 @@ namespace Tertere\FsClient\Fs\Local;
 use Symfony\Component\Filesystem\Filesystem;
 use Tertere\FsClient\Exception\FsClientConfigException;
 use Tertere\FsClient\Fs\AbstractItem;
+use Tertere\FsClient\Fs\ItemInterface;
 
 /**
  * Created by JetBrains PhpStorm.
@@ -13,7 +14,7 @@ use Tertere\FsClient\Fs\AbstractItem;
  * Time: 07:12
  * To change this template use File | Settings | File Templates.
  */
-class LocalItem extends AbstractItem
+class LocalItem extends AbstractItem implements ItemInterface
 {
     protected $oFs;
     protected $pathinfo;
@@ -32,6 +33,7 @@ class LocalItem extends AbstractItem
         $this->dirname = $this->pathinfo["dirname"];
         $this->extension = $this->pathinfo["extension"] ?? null;
         $this->size = filesize($this->path);
+        $this->sizeFormated = $this->formatSize($this->size);
         $this->isDir = is_dir($this->path);
         $this->isLink = is_link($this->path);
         $this->isFile = is_file($this->path);
@@ -112,22 +114,5 @@ class LocalItem extends AbstractItem
     public function delete()
     {
         $this->oFs->remove($this->path);
-    }
-
-    public function toArray()
-    {
-        $array = [
-            "path" => $this->path,
-            "filename" => $this->filename,
-            "sizeInt" => $this->size,
-            "sizeFormated" => $this->formatSize($this->size),
-            "isDir" => $this->isDir,
-            "extension" => $this->extension,
-            "creationDate" => $this->creationDate,
-            "modificationDate" => $this->modificationDate,
-            "type" => $this->type
-        ];
-
-        return $array;
     }
 }

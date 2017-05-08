@@ -4,14 +4,15 @@ namespace Tertere\FsClient\Fs;
 
 abstract class AbstractItem
 {
-    private $video_formats        = ["AVI", "MOV", "MPG", "MPA", "ASF", "WMA", "MP2", "M2P", "RARE", "DIF", "MP4", "VOB"];
-    private $audio_formats      = ["MP3", "AIFF", "AIF", "WAV", "PCM", "M4A"];
-    private $photo_formats        = ["JPG", "PNG", "TIFF", "BMP", "GIF"];
+    private $video_formats = ["AVI", "MOV", "MPG", "MPA", "ASF", "WMA", "MP2", "M2P", "RARE", "DIF", "MP4", "VOB"];
+    private $audio_formats = ["MP3", "AIFF", "AIF", "WAV", "PCM", "M4A"];
+    private $photo_formats = ["JPG", "PNG", "TIFF", "BMP", "GIF"];
 
     protected $mimeType;
     protected $dirname;
     protected $filename;
     protected $size;
+    protected $sizeFormated;
     protected $isDir;
     protected $isFile;
     protected $isLink;
@@ -21,11 +22,26 @@ abstract class AbstractItem
     protected $modificationDate;
     protected $type;
 
-    abstract public function toArray();
-
     public function toJson()
     {
         return json_encode($this->toArray());
+    }
+
+    public function toArray()
+    {
+        $array = [
+            "path" => $this->path,
+            "filename" => $this->filename,
+            "sizeInt" => $this->size,
+            "sizeFormated" => $this->sizeFormated,
+            "isDir" => $this->isDir,
+            "extension" => $this->extension,
+            "creationDate" => $this->creationDate,
+            "modificationDate" => $this->modificationDate,
+            "type" => $this->type
+        ];
+
+        return $array;
     }
 
     public function getType()
@@ -109,26 +125,20 @@ abstract class AbstractItem
     /**
      * @return mixed
      */
-    public function getIsDir()
+    public function getSizeInt()
     {
-        return $this->isDir;
+        return $this->sizeInt;
     }
 
     /**
      * @return mixed
      */
-    public function getIsFile()
+    public function getSizeFormated()
     {
-        return $this->isFile;
+        return $this->sizeFormated;
     }
 
-    /**
-     * @return mixed
-     */
-    public function getIsLink()
-    {
-        return $this->isLink;
-    }
+
 
     /**
      * @return mixed
