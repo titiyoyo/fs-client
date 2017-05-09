@@ -77,9 +77,7 @@ class LocalClient extends AbstractClient implements ClientInterface
     public function delete($path)
     {
         try {
-            if ($this->hasPermission($path)) {
-                return unlink($this->user->getHomeDir() . "/" . $path);
-            }
+            return $this->fsObj->remove($path);
         } catch (IOExceptionInterface $e) {
             "An error occurred while creating your directory at ".$e->getPath();
         }
@@ -101,5 +99,14 @@ class LocalClient extends AbstractClient implements ClientInterface
     public function getTmpDir()
     {
         return $this->config->getTmpDir();
+    }
+
+    public function rename($path, $newPath)
+    {
+        try {
+            return $this->fsObj->rename($path, $newPath);
+        } catch (IOExceptionInterface $e) {
+            $this->logger->error(__METHOD__ . " - " . $e->getMessage() . " at line " . $e->getLine() . " in file " . $e->getFile());
+        }
     }
 }

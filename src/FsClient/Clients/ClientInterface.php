@@ -14,5 +14,5 @@ interface ClientInterface
     public function getRelativePath($file, $path): string;
     public function getConfig(): ConfigInterface;
     public function delete($path);
-
+    public function rename($path, $newPath);
 }

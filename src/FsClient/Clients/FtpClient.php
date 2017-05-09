@@ -47,4 +47,9 @@ class FtpClient extends AbstractClient implements ClientInterface
     public function getAbsolutePath($path): string
     {
     }
+
+    public function rename($path, $newPath)
+    {
+        // TODO: Implement rename() method.
+    }
 }
