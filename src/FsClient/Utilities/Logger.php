@@ -27,15 +27,27 @@ class Logger
         $this->dumper = $dumper;
     }
 
-    public function log($data, $type = self::TYPE_INFO)
+    public function log($data, $type = self::TYPE_INFO, bool $locate = true)
     {
         $cliOutput = null;
+
         if (is_array($data)) {
             $cliOutput = $this->dumpArray($data);
         }
 
         if (is_a($data, "Exception")) {
             $cliOutput = $this->dumpException($data);
+        }
+
+        if ($locate) {
+            $trace = debug_backtrace();
+            $previousExecution = $trace[1];
+            $extraData = " at line " . $previousExecution["line"];
+            $extraData .= " in file " . $previousExecution["file"];
+
+            // $extraData = print_r($trace, true);
+
+            $cliOutput .= $extraData;
         }
 
         switch (strtoupper($type)) {
