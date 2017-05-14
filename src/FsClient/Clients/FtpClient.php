@@ -9,6 +9,7 @@
 namespace Tertere\FsClient\Clients;
 
 use Tertere\FsClient\Clients\AbstractClient;
+use Tertere\FsClient\Fs\DirectoryInterface;
 use Tertere\FsClient\Fs\ItemInterface;
 
 class FtpClient extends AbstractClient implements ClientInterface
@@ -35,7 +36,7 @@ class FtpClient extends AbstractClient implements ClientInterface
         // TODO: Implement mkdir() method.
     }
 
-    public function browse($path)
+    public function browse($path): DirectoryInterface
     {
         // TODO: Implement browse() method.
     }

@@ -9,6 +9,7 @@
 namespace Tertere\FsClient\Clients;
 
 use Psr\Log\LoggerInterface;
+use Tertere\FsClient\Fs\DirectoryInterface;
 use Tertere\FsClient\Fs\ItemInterface;
 use Tertere\FsClient\Fs\Local\LocalConfig;
 use Tertere\FsClient\Fs\Local\LocalDirectory;
@@ -35,7 +36,7 @@ class LocalClient extends AbstractClient implements ClientInterface
         return $this->config->isConfigured();
     }
 
-    public function browse($path): LocalDirectory
+    public function browse($path): DirectoryInterface
     {
         $this->currentDir = $this->setCurrentDir($path);
         return new LocalDirectory($this->currentDir);
@@ -45,10 +46,14 @@ class LocalClient extends AbstractClient implements ClientInterface
     {
         $absPath = null;
 
+        $this->logger->debug($path);
+
         $paths = [
             $this->getConfig()->getRootDir() . $path,
             $this->getConfig()->getRootDir() . "/" . $path
         ];
+
+        $this->logger->debug($paths);
 
         foreach ($paths as $curPath) {
             $tmpPath = realpath($curPath);
@@ -56,6 +61,8 @@ class LocalClient extends AbstractClient implements ClientInterface
                 $absPath = $tmpPath;
             }
         }
+
+        $this->logger->debug($absPath);
 
         if (!empty($absPath)) {
             return $absPath;
@@ -92,7 +99,7 @@ class LocalClient extends AbstractClient implements ClientInterface
 
     public function get($path): ItemInterface
     {
-        if (!$this->fsObj->exists($path))
+        if (!$this->fsObj->exists($this->getRootDir() . "/" . $path))
             throw new \Exception(__METHOD__ . " - File " . $path . " does not exist on line " . __LINE__ . " in file " . __FILE__, 1);
 
         return new LocalItem($path);
