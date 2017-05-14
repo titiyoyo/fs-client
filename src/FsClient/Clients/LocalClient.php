@@ -43,12 +43,19 @@ class LocalClient extends AbstractClient implements ClientInterface
 
     public function setCurrentDir($path)
     {
-        $absPath = $path;
-        if (!$this->fsObj->isAbsolutePath($path)) {
-            $absPath = $this->config->getRootDir() . "/" . $path;
-        }
+        $absPath = null;
 
-        $absPath = realpath($absPath);
+        $paths = [
+            $this->getConfig()->getRootDir() . $path,
+            $this->getConfig()->getRootDir() . "/" . $path
+        ];
+
+        foreach ($paths as $curPath) {
+            $tmpPath = realpath($curPath);
+            if ($tmpPath) {
+                $absPath = $tmpPath;
+            }
+        }
 
         if (!empty($absPath)) {
             return $absPath;
