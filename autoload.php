@@ -5,15 +5,22 @@ include_once realpath("./vendor/autoload.php");
 spl_autoload_register(
     function () {
         include_once realpath('./src/FsClient/Clients/AbstractClient.php');
+        include_once realpath('./src/FsClient/Clients/ClientInterface.php');
         //include_once realpath('./src/FsClient/Clients/FtpClient.php');
         include_once realpath('./src/FsClient/Clients/LocalClient.php');
+        include_once realpath('./src/FsClient/Clients/Modes.php');
 
         include_once realpath('./src/FsClient/Fs/AbstractItem.php');
         include_once realpath('./src/FsClient/Fs/AbstractDirectory.php');
         include_once realpath('./src/FsClient/Fs/AbstractConfig.php');
+        include_once realpath('./src/FsClient/Fs/ItemInterface.php');
+        include_once realpath('./src/FsClient/Fs/DirectoryInterface.php');
+        include_once realpath('./src/FsClient/Fs/ConfigInterface.php');
+
 //        include_once realpath('./src/FsClient/Fs/Ftp/FtpItem.php');
 //        include_once realpath('./src/FsClient/Fs/Ftp/FtpConfig.php');
 //        include_once realpath('./src/FsClient/Fs/Ftp/FtpDirectory.php');
+
         include_once realpath('./src/FsClient/Fs/Local/LocalItem.php');
         include_once realpath('./src/FsClient/Fs/Local/LocalConfig.php');
         include_once realpath('./src/FsClient/Fs/Local/LocalDirectory.php');
