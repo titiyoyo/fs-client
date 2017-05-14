@@ -8,7 +8,7 @@
 
 namespace Tertere\FsClient\Fs;
 
-abstract class AbstractConfig implements ConfigInterface
+abstract class AbstractConfig
 {
     protected $rootDir;
     protected $tmpDir;
