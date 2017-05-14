@@ -22,8 +22,6 @@ abstract class AbstractItem
     protected $modificationDate;
     protected $type;
 
-    abstract function rename($newFilename);
-
     public function toJson()
     {
         return json_encode($this->toArray());
