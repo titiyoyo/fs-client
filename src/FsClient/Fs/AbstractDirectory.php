@@ -8,6 +8,7 @@
 
 namespace Tertere\FsClient\Fs;
 
+use Symfony\Component\Filesystem\Exception\FileNotFoundException;
 use Tertere\FsClient\Exception\FsClientConfigException;
 
 abstract class AbstractDirectory
@@ -18,6 +19,16 @@ abstract class AbstractDirectory
     public function get($idx)
     {
         return $this->items[$idx];
+    }
+
+    public function getByName($filename)
+    {
+        foreach ($this->items as $item) {
+            if ($filename == $item->getFilename())
+                return $item;
+        }
+
+        throw new FileNotFoundException("Couldn't find file " . $filename . ", can't rename");
     }
 
     public function getPath()

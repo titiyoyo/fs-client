@@ -2,12 +2,12 @@
 
 namespace Tertere\FsClient\Fs\Local;
 
-use PHPUnit\Runner\Exception;
 use Symfony\Component\Filesystem\Filesystem;
 use Tertere\FsClient\Fs\AbstractDirectory;
+use Tertere\FsClient\Fs\DirectoryInterface;
 use Tertere\FsClient\Fs\Local\LocalItem;
 
-class LocalDirectory extends AbstractDirectory
+class LocalDirectory extends AbstractDirectory implements DirectoryInterface
 {
     private $excludedFiles = [
         ".", "..", ".DS_Store"
@@ -99,7 +99,7 @@ class LocalDirectory extends AbstractDirectory
         return $this;
     }
 
-    public function createSubDir()
+    public function create()
     {
     }
 

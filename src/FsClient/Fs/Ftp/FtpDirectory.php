@@ -3,8 +3,10 @@
 namespace Tertere\FsClient\Fs\Ftp;
 
 use Tertere\FsClient\Fs\AbstractDirectory;
+use Tertere\FsClient\Fs\DirectoryInterface;
+use Tertere\FsClient\Fs\Ftp\FtpItem;
 
-class FtpDirectory extends AbstractDirectory
+class FtpDirectory extends AbstractDirectory implements DirectoryInterface
 {
     /** @var int id de connexion au ftp */
     private $connId = null;
@@ -284,4 +286,10 @@ class FtpDirectory extends AbstractDirectory
     public function move($localPath, $targetPath)
     {
     }
+
+    public function validatePath($path): bool
+    {
+        // TODO: Implement validatePath() method.
+    }
 }
+
