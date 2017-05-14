@@ -11,15 +11,25 @@ namespace Tertere\FsClient\Fs;
 use Symfony\Component\Filesystem\Exception\FileNotFoundException;
 use Tertere\FsClient\Exception\FsClientConfigException;
 
-abstract class AbstractDirectory
+abstract class AbstractDirectory extends AbstractItem
 {
     protected $items = [];
     protected $path;
+    protected $deleted;
+    protected $dirs = [];
+    protected $files = [];
+    protected $links = [];
+
+    protected $excludedFiles = [
+        ".", "..", ".DS_Store"
+    ];
 
     public function get($idx)
     {
         return $this->items[$idx];
     }
+
+    abstract public function list();
 
     public function getByName($filename)
     {
@@ -46,6 +56,33 @@ abstract class AbstractDirectory
         throw new FsClientConfigException(__METHOD__ . " - invalid path " . $path);
     }
 
+    public function getItems(): array
+    {
+        return $this->items;
+    }
 
-    abstract public function validatePath($path): bool;
+    public function getFiles(): array
+    {
+        return $this->files;
+    }
+
+    public function getDirs(): array
+    {
+        return $this->dirs;
+    }
+
+    public function getLinks(): array
+    {
+        return $this->links;
+    }
+
+    public function getExcludedFiles(): array
+    {
+        return $this->excludedFiles;
+    }
+
+    public function setExcludedFiles(array $excludedFiles)
+    {
+        return $this->excludedFiles;
+    }
 }

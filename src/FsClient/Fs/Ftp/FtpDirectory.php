@@ -291,5 +291,10 @@ class FtpDirectory extends AbstractDirectory implements DirectoryInterface
     {
         // TODO: Implement validatePath() method.
     }
+
+    public static function create($path)
+    {
+
+    }
 }
 
