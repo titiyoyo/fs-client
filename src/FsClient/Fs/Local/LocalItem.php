@@ -26,6 +26,13 @@ class LocalItem extends AbstractItem implements ItemInterface
         }
 
         $this->path = $path;
+        $this->setFileInfo();
+
+        $this->oFs = new Filesystem();
+    }
+
+    private function setFileInfo()
+    {
         $this->pathinfo = pathinfo($this->path);
         $this->type = $this->getType();
 
@@ -40,8 +47,6 @@ class LocalItem extends AbstractItem implements ItemInterface
         $this->mimeType = mime_content_type($this->path);
         $this->creationDate = filectime($this->path);
         $this->modificationDate = filemtime($this->path);
-
-        $this->oFs = new Filesystem();
     }
 
     public function getRelativePathTo($path)
@@ -107,8 +112,13 @@ class LocalItem extends AbstractItem implements ItemInterface
 
     public function rename($newName)
     {
-        $renamePath = dirname($this->path) . "/" . basename($newName);
+        $filename = basename($newName);
+        $renamePath = dirname($this->path) . "/" . $filename;
         $this->oFs->rename($this->path, $renamePath);
+        if (realpath($this->dirname . "/" . $filename)) {
+            $this->path = $this->dirname . "/" . $filename;
+            $this->setFileInfo();
+        }
     }
 
     public function delete()

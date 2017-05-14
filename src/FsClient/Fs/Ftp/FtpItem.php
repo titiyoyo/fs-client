@@ -89,4 +89,9 @@ class FtpItem extends AbstractItem
     {
 
     }
+
+    public function rename($newFilename)
+    {
+        // TODO: Implement rename() method.
+    }
 }

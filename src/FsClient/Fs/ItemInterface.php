@@ -21,4 +21,5 @@ interface ItemInterface
 
     public function toArray();
     public function toJson();
+    public function rename($newFilename);
 }
