@@ -29,7 +29,7 @@ class Logger
 
     public function log($data, $type = self::TYPE_INFO, bool $locate = true)
     {
-        $cliOutput = null;
+        $cliOutput = $data;
 
         if (is_array($data)) {
             $cliOutput = $this->dumpArray($data);
@@ -44,8 +44,6 @@ class Logger
             $previousExecution = $trace[1];
             $extraData = " at line " . $previousExecution["line"];
             $extraData .= " in file " . $previousExecution["file"];
-
-            // $extraData = print_r($trace, true);
 
             $cliOutput .= $extraData;
         }
