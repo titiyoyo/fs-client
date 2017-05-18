@@ -16,7 +16,7 @@ class FtpClient extends AbstractClient implements ClientInterface
 {
     const MODE = 2;
 
-    public function delete($path)
+    public function delete()
     {
         // TODO: Implement delete() method.
     }
@@ -45,11 +45,7 @@ class FtpClient extends AbstractClient implements ClientInterface
     {
     }
 
-    public function getAbsolutePath($path): string
-    {
-    }
-
-    public function rename($path, $newPath)
+    public function rename($newName)
     {
         // TODO: Implement rename() method.
     }

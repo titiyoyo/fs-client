@@ -9,6 +9,7 @@
 namespace Tertere\FsClient\Clients;
 
 use Psr\Log\LoggerInterface;
+use Symfony\Component\Filesystem\Exception\IOException;
 use Tertere\FsClient\Fs\DirectoryInterface;
 use Tertere\FsClient\Fs\ItemInterface;
 use Tertere\FsClient\Fs\Local\LocalConfig;
@@ -23,6 +24,10 @@ class LocalClient extends AbstractClient implements ClientInterface
     const MODE = 1;
 
     private $fsObj;
+
+    /**
+     * @var LocalDirectory
+     */
     private $currentDir;
 
     public function __construct(LocalConfig $config, LoggerInterface $logger)
@@ -38,22 +43,19 @@ class LocalClient extends AbstractClient implements ClientInterface
 
     public function browse($path): DirectoryInterface
     {
-        $this->currentDir = $this->setCurrentDir($path);
-        return new LocalDirectory($this->currentDir);
+        $abspath = $this->getAbsPath($path);
+        $this->currentDir = new LocalDirectory($abspath);
+        return $this->currentDir;
     }
 
-    public function setCurrentDir($path)
+    public function getAbsPath($path)
     {
         $absPath = null;
-
-        $this->logger->debug($path);
 
         $paths = [
             $this->getConfig()->getRootDir() . $path,
             $this->getConfig()->getRootDir() . "/" . $path
         ];
-
-        $this->logger->debug($paths);
 
         foreach ($paths as $curPath) {
             $tmpPath = realpath($curPath);
@@ -61,8 +63,6 @@ class LocalClient extends AbstractClient implements ClientInterface
                 $absPath = $tmpPath;
             }
         }
-
-        $this->logger->debug($absPath);
 
         if (!empty($absPath)) {
             return $absPath;
@@ -76,24 +76,23 @@ class LocalClient extends AbstractClient implements ClientInterface
         return $file->getRelativePath($path);
     }
 
-    public function mkdir($path)
+    public function delete()
     {
         try {
-            if (!$this->fsObj->exists($path) && $this->hasPermission($path)) {
-                $this->fsObj->mkdir($path);
-            }
+            return $this->currentDir->delete();
         } catch (IOExceptionInterface $e) {
-            echo "An error occurred while creating your directory at ".$e->getPath();
+            $this->logger->error(__METHOD__ . " - " . $e->getMessage() . " on path " . $this->currentDir->getPath() . " at line " . $e->getLine() . " in file " . $e->getFile());
+            throw $e;
         }
     }
 
-
-    public function delete($path)
+    public function mkdir($name)
     {
         try {
-            return $this->fsObj->remove($path);
+            $this->currentDir->mkdir($name);
         } catch (IOExceptionInterface $e) {
-            "An error occurred while creating your directory at ".$e->getPath();
+            $this->logger->error(__METHOD__ . " - " . $e->getMessage() . " on path " . $e->getPath() . " at line " . $e->getLine() . " in file " . $e->getFile());
+            throw $e;
         }
     }
 
@@ -105,22 +104,13 @@ class LocalClient extends AbstractClient implements ClientInterface
         return new LocalItem($path);
     }
 
-    public function getRootDir()
-    {
-        return $this->config->getRootDir();
-    }
-
-    public function getTmpDir()
-    {
-        return $this->config->getTmpDir();
-    }
-
-    public function rename($path, $newPath)
+    public function rename($newName)
     {
         try {
-            return $this->fsObj->rename($path, $newPath);
+            return $this->currentDir->rename($newName);
         } catch (IOExceptionInterface $e) {
-            $this->logger->error(__METHOD__ . " - " . $e->getMessage() . " at line " . $e->getLine() . " in file " . $e->getFile());
+            $this->logger->error(__METHOD__ . " - " . $e->getMessage() . " on path " . $e->getPath() . " at line " . $e->getLine() . " in file " . $e->getFile());
+            throw $e;
         }
     }
 }

@@ -41,11 +41,6 @@ abstract class AbstractClient
         return $this->config;
     }
 
-    public function hasPermission($path)
-    {
-        return $this->user->hasPermission($path);
-    }
-
     public function getBreadcumbArray($path)
     {
         $absolutePath = realpath($this->rootDir);
@@ -86,5 +81,15 @@ abstract class AbstractClient
         } else {
             throw new \Exception(__METHOD__ . " - No file submited");
         }
+    }
+
+    public function getRootDir()
+    {
+        return $this->config->getRootDir();
+    }
+
+    public function getTmpDir()
+    {
+        return $this->config->getTmpDir();
     }
 }

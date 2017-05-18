@@ -59,8 +59,37 @@ class LocalDirectory extends AbstractDirectory implements DirectoryInterface, It
         return $this;
     }
 
+    public function mkdir($name)
+    {
+        try {
+            if (!is_writable($this->path)) {
+                throw new IOException("path " . $this->path . " is not writeable", null, null, $this->path);
+            }
+
+            $this->oFs->mkdir($this->path . "/" . $name);
+        } catch (IOExceptionInterface $e) {
+            $this->logger->error(__METHOD__ . " - " . $e->getMessage() . " on path " . $e->getPath() . " at line " . $e->getLine() . " in file " . $e->getFile());
+            throw $e;
+        }
+    }
+
     public static function create($path)
     {
+
+    }
+
+    public function rename($newName)
+    {
+        try {
+            if (!is_writable($this->path)) {
+                throw new IOException("path " . $this->path . " is not writeable", null, null, $this->path);
+            }
+
+            $this->oFs->rename($this->path, basename($this->path) . "/" .  $newName);
+        } catch (IOExceptionInterface $e) {
+            $this->logger->error(__METHOD__ . " - " . $e->getMessage() . " on path " . $e->getPath() . " at line " . $e->getLine() . " in file " . $e->getFile());
+            throw $e;
+        }
     }
 
     public function delete(): bool
