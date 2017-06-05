@@ -101,7 +101,7 @@ class LocalClient extends AbstractClient implements ClientInterface
         if (!$this->fsObj->exists($this->getRootDir() . "/" . $path))
             throw new \Exception(__METHOD__ . " - File " . $path . " does not exist on line " . __LINE__ . " in file " . __FILE__, 1);
 
-        return new LocalItem($path);
+        return new LocalItem($this->getRootDir() . "/" . $path);
     }
 
     public function rename($newName)
