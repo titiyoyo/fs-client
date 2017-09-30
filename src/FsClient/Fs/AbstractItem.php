@@ -6,7 +6,9 @@ abstract class AbstractItem
 {
     private $video_formats = ["AVI", "MOV", "MPG", "MPA", "ASF", "WMA", "MP2", "M2P", "RARE", "DIF", "MP4", "VOB"];
     private $audio_formats = ["MP3", "AIFF", "AIF", "WAV", "PCM", "M4A"];
-    private $photo_formats = ["JPG", "PNG", "TIFF", "BMP", "GIF"];
+    private $photo_formats = ["JPG", "PNG", "TIFF", "BMP", "GIF", "ICO"];
+    private $document_formats = ["PDF", "DOC", "RTF", "TXT", "NFO"];
+    private $archive_formats = ["ZIP", "TAR", "TAR.GZ", "7Z", "RAR"];
 
     protected $mimeType;
     protected $dirname;
@@ -27,8 +29,9 @@ abstract class AbstractItem
         return json_encode($this->toArray());
     }
 
-    public function toArray()
-    {
+    public function toArray(
+        \Closure $closure = null
+    ) {
         $array = [
             "path" => $this->path,
             "filename" => $this->filename,
@@ -38,8 +41,14 @@ abstract class AbstractItem
             "extension" => $this->extension,
             "creationDate" => $this->creationDate,
             "modificationDate" => $this->modificationDate,
-            "type" => $this->type
+            "mimeType" => $this->mimeType,
+            "type" => $this->type,
+            "uid" => $this->uid,
         ];
+
+        if ($closure) {
+            $array = $closure($array);
+        }
 
         return $array;
     }
@@ -53,6 +62,14 @@ abstract class AbstractItem
             $type = "audio";
         } elseif (in_array(strtoupper($this->extension), $this->photo_formats)) {
             $type = "photo";
+        } elseif (in_array(strtoupper($this->extension), $this->document_formats)) {
+            $type = "document";
+        } elseif (in_array(strtoupper($this->extension), $this->archive_formats)) {
+            $type = "archive";
+        } elseif ($this->isDir) {
+            $type = "folder";
+        } elseif ($this->isLink) {
+            $type = "link";
         }
         return $type;
     }

@@ -9,4 +9,5 @@ interface DirectoryInterface
     public function getByName($name);
     public function delete(): bool;
     public function validatePath($path): bool;
+    public function toArray();
 }

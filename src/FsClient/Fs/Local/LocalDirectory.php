@@ -26,6 +26,11 @@ class LocalDirectory extends AbstractDirectory implements DirectoryInterface, It
         $this->deleted = false;
     }
 
+    public function getParent(): LocalDirectory
+    {
+        return $this->list(dirname($this->path));
+    }
+
     public function isEmpty(): bool
     {
         return count($this->items) > 0 ? false : true;

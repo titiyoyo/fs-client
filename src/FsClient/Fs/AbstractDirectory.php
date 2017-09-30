@@ -85,4 +85,36 @@ abstract class AbstractDirectory extends AbstractItem
     {
         return $this->excludedFiles;
     }
+
+    public function toArray(
+        \Closure $closure = null
+    ){
+        $items = [];
+        foreach ($this->items as $item) {
+            $items[] = $item->toArray($closure);
+        }
+
+        $dirs = [];
+        foreach ($this->dirs as $dir) {
+            $dirs[] = $dir->toArray($closure);
+        }
+
+        $files = [];
+        foreach ($this->files as $file) {
+            $files[] = $file->toArray($closure);
+        }
+
+        $links = [];
+        foreach ($this->links as $link) {
+            $links[] = $link->toArray($closure);
+        }
+
+        return [
+            "path" => $this->path,
+            "links" => $links,
+            "files" => $files,
+            "dirs" => $dirs,
+            "items" => $items,
+        ];
+    }
 }

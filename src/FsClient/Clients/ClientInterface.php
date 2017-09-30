@@ -18,4 +18,5 @@ interface ClientInterface
     public function rename($newName);
     public function getRootDir();
     public function getTmpDir();
+    public function toArray();
 }

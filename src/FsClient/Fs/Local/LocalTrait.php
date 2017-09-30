@@ -20,7 +20,6 @@ trait LocalTrait
     private function setProperties()
     {
         $this->pathinfo = pathinfo($this->path);
-        $this->type = $this->getType();
 
         $this->filename = $this->pathinfo["basename"];
         $this->dirname = $this->pathinfo["dirname"];
@@ -33,6 +32,9 @@ trait LocalTrait
         $this->mimeType = mime_content_type($this->path);
         $this->creationDate = filectime($this->path);
         $this->modificationDate = filemtime($this->path);
+        $this->uid = uniqid();
+
+        $this->type = $this->getType();
     }
 
     public function getRelativePathTo($path)

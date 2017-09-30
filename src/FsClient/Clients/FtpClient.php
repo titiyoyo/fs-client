@@ -49,4 +49,9 @@ class FtpClient extends AbstractClient implements ClientInterface
     {
         // TODO: Implement rename() method.
     }
+
+    public function toArray()
+    {
+        // TODO: Implement toArray() method.
+    }
 }

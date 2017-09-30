@@ -113,4 +113,10 @@ class LocalClient extends AbstractClient implements ClientInterface
             throw $e;
         }
     }
+
+    public function toArray()
+    {
+        return $this->currentDir->toArray();
+    }
+
 }

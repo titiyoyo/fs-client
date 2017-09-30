@@ -33,6 +33,11 @@ class LocalItem extends AbstractItem implements ItemInterface
         $this->oFs = new Filesystem();
     }
 
+    public function getParent(): LocalDirectory
+    {
+        return $this->list(dirname($this->path));
+    }
+
     public function delete(): bool
     {
         try  {

@@ -18,6 +18,7 @@ interface ItemInterface
     public function getCreationDate();
     public function getModificationDate();
     public function getRelativePathTo($path);
+    public function getParent();
 
     public function toArray();
     public function toJson();
