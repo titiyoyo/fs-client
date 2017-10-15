@@ -23,7 +23,7 @@ class LocalConfig extends AbstractConfig implements ConfigInterface
         }
 
         if (!$this->validateDir($paramsArray["rootDir"])) {
-            throw new FsClientConfigException(__METHOD__ . " - root dir is invalid");
+            throw new FsClientConfigException(__METHOD__ . " - root dir ${$paramsArray["rootDir"]} is invalid");
         }
 
         if (!isset($paramsArray["tmpDir"])) {
