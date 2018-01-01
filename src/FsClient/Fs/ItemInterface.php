@@ -8,7 +8,6 @@ interface ItemInterface
     public function isLink();
     public function isFile();
 
-    public function getType();
     public function getPath();
     public function getMimeType();
     public function getDirname();

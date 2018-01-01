@@ -4,12 +4,6 @@ namespace Tertere\FsClient\Fs;
 
 abstract class AbstractItem
 {
-    private $video_formats = ["AVI", "MOV", "MPG", "MPA", "ASF", "WMA", "MP2", "M2P", "RARE", "DIF", "MP4", "VOB"];
-    private $audio_formats = ["MP3", "AIFF", "AIF", "WAV", "PCM", "M4A"];
-    private $photo_formats = ["JPG", "PNG", "TIFF", "BMP", "GIF", "ICO"];
-    private $document_formats = ["PDF", "DOC", "RTF", "TXT", "NFO"];
-    private $archive_formats = ["ZIP", "TAR", "TAR.GZ", "7Z", "RAR"];
-
     protected $mimeType;
     protected $dirname;
     protected $filename;
@@ -38,11 +32,12 @@ abstract class AbstractItem
             "sizeInt" => $this->size,
             "sizeFormated" => $this->sizeFormated,
             "isDir" => $this->isDir,
+            "isFile" => $this->isFile,
+            "isLink" => $this->isLink,
             "extension" => $this->extension,
             "creationDate" => $this->creationDate,
             "modificationDate" => $this->modificationDate,
             "mimeType" => $this->mimeType,
-            "type" => $this->type,
             "uid" => $this->uid,
         ];
 
@@ -51,27 +46,6 @@ abstract class AbstractItem
         }
 
         return $array;
-    }
-
-    public function getType()
-    {
-        $type = "other";
-        if (in_array(strtoupper($this->extension), $this->video_formats)) {
-            $type = "video";
-        } elseif (in_array(strtoupper($this->extension), $this->audio_formats)) {
-            $type = "audio";
-        } elseif (in_array(strtoupper($this->extension), $this->photo_formats)) {
-            $type = "photo";
-        } elseif (in_array(strtoupper($this->extension), $this->document_formats)) {
-            $type = "document";
-        } elseif (in_array(strtoupper($this->extension), $this->archive_formats)) {
-            $type = "archive";
-        } elseif ($this->isDir) {
-            $type = "folder";
-        } elseif ($this->isLink) {
-            $type = "link";
-        }
-        return $type;
     }
 
     public function isDir()

@@ -33,8 +33,6 @@ trait LocalTrait
         $this->creationDate = filectime($this->path);
         $this->modificationDate = filemtime($this->path);
         $this->uid = uniqid();
-
-        $this->type = $this->getType();
     }
 
     public function getRelativePathTo($path)
