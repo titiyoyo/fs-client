@@ -54,4 +54,9 @@ class FtpClient extends AbstractClient implements ClientInterface
     {
         // TODO: Implement toArray() method.
     }
+
+    public function clearTmpFiles()
+    {
+        // TODO: Implement toArray() method.
+    }
 }

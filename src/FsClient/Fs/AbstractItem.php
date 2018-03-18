@@ -72,7 +72,9 @@ abstract class AbstractItem
     {
         $str = trim($str);
 
-        if ($str > 1000000) {
+        if ($str > 1000000000) {
+            return round(($str / 1000000000), 1) . " Go";
+        } else if ($str > 1000000) {
             return round(($str / 1000000), 1) . " Mo";
         } elseif ($str > 1000) {
             return round($str / 1000, 1) . " Ko";

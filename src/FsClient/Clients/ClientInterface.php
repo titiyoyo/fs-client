@@ -19,4 +19,5 @@ interface ClientInterface
     public function getRootDir();
     public function getTmpDir();
     public function toArray();
+    public function clearTmpFiles();
 }

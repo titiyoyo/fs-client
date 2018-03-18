@@ -2,6 +2,8 @@
 
 namespace Tertere\FsClient\Fs\Local;
 
+use Tertere\FsClient\Utilities\MimeTypes;
+
 trait LocalTrait
 {
     public function rename($newName)
@@ -65,24 +67,27 @@ trait LocalTrait
 
     private function checkFileType($path, $type)
     {
-        $output = trim(shell_exec("if [ -$type '$path' ]; then echo true; else echo false; fi"));
+        $output = trim(shell_exec('if [ -$type "' . $path . '" ]; then echo true; else echo false; fi'));
         return $output === 'true' ? true : false;
     }
 
     public function mimeType($path)
     {
-        $mime = '';
+        $mime = null;
 
         try {
             $mime = mime_content_type($path);
             if (empty($mtime)) {
-                $mime = trim(shell_exec("file -b --mime-type '$path'"));
+                $mime = trim(shell_exec('file -b --mime-type "' . $path . '"'));
+            }
+            if ('application/octet-stream' === $mime) {
+                $mime = MimeTypes::extensionToMimetype($this->getExtension());
             }
         } catch (\Throwable $ex) {
-            $mime = trim(shell_exec("file -b --mime-type '$path'"));
+            $mime = trim(shell_exec('file -b --mime-type "' . $path . '"'));
         }
 
-        return trim($mime);
+        return $mime;
     }
 
     public function filectime($path)
@@ -92,10 +97,10 @@ trait LocalTrait
         try {
             $ctime = filectime($path);
             if (empty($mtime)) {
-                $ctime = $this->formatStatDate(shell_exec("stat -c %y '$path'"));
+                $ctime = $this->formatStatDate(shell_exec('stat -c %y "' . $path . '"'));
             }
         } catch (\Throwable $ex) {
-            $ctime = $this->formatStatDate(shell_exec("stat -c %y '$path'"));
+            $ctime = $this->formatStatDate(shell_exec('stat -c %y "' . $path . '"'));
         }
 
         return trim($ctime);
@@ -108,11 +113,11 @@ trait LocalTrait
         try {
             $mtime = filemtime($path);
             if (empty($mtime)) {
-                $mtime = $this->formatStatDate(shell_exec("stat -c %y '$path'"));
+                $mtime = $this->formatStatDate(shell_exec('stat -c %y "' . $path . '"'));
             }
 
         } catch (\Throwable $ex) {
-            $mtime = $this->formatStatDate(shell_exec("stat -c %y '$path'"));
+            $mtime = $this->formatStatDate(shell_exec('stat -c %y "' . $path . '"'));
         }
 
         return trim($mtime);
@@ -136,10 +141,10 @@ trait LocalTrait
         try {
             $size = filesize($path);
             if (empty($size)) {
-                $size = shell_exec('wc -c < \'' . $path . '\'');
+                $size = shell_exec('wc -c < "' . $path . '"');
             }
         } catch (\Throwable $ex) {
-            $size = shell_exec('wc -c < \'' . $path . '\'');
+            $size = shell_exec('wc -c < "' . $path . '"');
         }
 
         return trim($size);

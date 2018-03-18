@@ -18,6 +18,7 @@ use Tertere\FsClient\Fs\Local\LocalItem;
 use Tertere\FsClient\User\User;
 use Symfony\Component\Filesystem\Filesystem;
 use Symfony\Component\Filesystem\Exception\IOExceptionInterface;
+use Symfony\Component\Finder\Finder;
 
 class LocalClient extends AbstractClient implements ClientInterface
 {
@@ -119,4 +120,18 @@ class LocalClient extends AbstractClient implements ClientInterface
         return $this->currentDir->toArray();
     }
 
+    public function clearTmpFiles()
+    {
+        try {
+            $dirs = array_diff(scandir($this->getConfig()->getTmpDir()), ['..', '.']);
+            foreach ($dirs as $dir) {
+                $this->fsObj->remove(
+                    $this->getConfig()->getTmpDir() . '/' . $dir
+                );
+            }
+        } catch (\Throwable $e) {
+            $this->logger->error(__METHOD__ . " - " . $e->getMessage() . " at line " . $e->getLine() . " in file " . $e->getFile());
+            throw $e;
+        }
+    }
 }
