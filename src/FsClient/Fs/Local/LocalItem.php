@@ -23,14 +23,14 @@ class LocalItem extends AbstractItem implements ItemInterface
 
     public function __construct($path)
     {
-        if (!realpath($path)) {
+        $this->oFs = new Filesystem();
+
+        if (!$this->oFs->exists($path)) {
             throw new FsClientConfigException(__METHOD__ . " - path " . $path . " is invalid");
         }
 
         $this->path = $path;
         $this->setProperties();
-
-        $this->oFs = new Filesystem();
     }
 
     public function getParent(): LocalDirectory

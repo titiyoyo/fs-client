@@ -1,8 +1,6 @@
 <?php
 
-
 namespace Tertere\FsClient\Fs\Local;
-
 
 trait LocalTrait
 {
@@ -24,15 +22,127 @@ trait LocalTrait
         $this->filename = $this->pathinfo["basename"];
         $this->dirname = $this->pathinfo["dirname"];
         $this->extension = $this->pathinfo["extension"] ?? null;
-        $this->size = filesize($this->path);
+        $this->size = $this->filesize($this->path);
         $this->sizeFormated = $this->formatSize($this->size);
-        $this->isDir = is_dir($this->path);
-        $this->isLink = is_link($this->path);
-        $this->isFile = is_file($this->path);
-        $this->mimeType = mime_content_type($this->path);
-        $this->creationDate = filectime($this->path);
-        $this->modificationDate = filemtime($this->path);
+        $this->isDir = $this->is_dir($this->path);
+        $this->isLink = $this->is_link($this->path);
+        $this->isFile = $this->is_file($this->path);
+        $this->mimeType = $this->mimeType($this->path);
+        $this->creationDate = $this->filectime($this->path);
+        $this->modificationDate = $this->filemtime($this->path);
         $this->uid = uniqid();
+    }
+
+    public function is_dir($path)
+    {
+        $isDir = is_dir($path);
+        if (!$isDir) {
+            $isDir = $this->checkFileType($path, 'd');
+        }
+
+        return $isDir;
+    }
+
+    public function is_link($path)
+    {
+        $isLink = is_link($path);
+        if (!$isLink) {
+            $isLink = $this->checkFileType($path, 'L');
+        }
+
+        return $isLink;
+    }
+
+    public function is_file($path)
+    {
+        $isFile = is_file($path);
+        if (!$isFile) {
+            $isFile = $this->checkFileType($path, 'f');
+        }
+
+        return $isFile;
+    }
+
+    private function checkFileType($path, $type)
+    {
+        $output = trim(shell_exec("if [ -$type '$path' ]; then echo true; else echo false; fi"));
+        return $output === 'true' ? true : false;
+    }
+
+    public function mimeType($path)
+    {
+        $mime = '';
+
+        try {
+            $mime = mime_content_type($path);
+            if (empty($mtime)) {
+                $mime = trim(shell_exec("file -b --mime-type '$path'"));
+            }
+        } catch (\Throwable $ex) {
+            $mime = trim(shell_exec("file -b --mime-type '$path'"));
+        }
+
+        return trim($mime);
+    }
+
+    public function filectime($path)
+    {
+        $ctime = '';
+
+        try {
+            $ctime = filectime($path);
+            if (empty($mtime)) {
+                $ctime = $this->formatStatDate(shell_exec("stat -c %y '$path'"));
+            }
+        } catch (\Throwable $ex) {
+            $ctime = $this->formatStatDate(shell_exec("stat -c %y '$path'"));
+        }
+
+        return trim($ctime);
+    }
+
+    public function filemtime($path)
+    {
+        $mtime = '';
+
+        try {
+            $mtime = filemtime($path);
+            if (empty($mtime)) {
+                $mtime = $this->formatStatDate(shell_exec("stat -c %y '$path'"));
+            }
+
+        } catch (\Throwable $ex) {
+            $mtime = $this->formatStatDate(shell_exec("stat -c %y '$path'"));
+        }
+
+        return trim($mtime);
+    }
+
+    private function formatStatDate($date)
+    {
+        $date = preg_replace('/\..*/', '', trim($date));
+        $dateTime = \DateTime::createFromFormat(
+            'Y-m-d H:i:s',
+            $date
+        );
+
+        return $dateTime->getTimestamp();
+    }
+
+    public function filesize($path)
+    {
+        $size = null;
+
+        try {
+            $size = filesize($path);
+            if (empty($size)) {
+                $size = shell_exec('wc -c < \'' . $path . '\'');
+            }
+        } catch (\Throwable $ex) {
+            $size = shell_exec('wc -c < \'' . $path . '\'');
+        }
+
+        return trim($size);
     }
 
     public function getRelativePathTo($path)
