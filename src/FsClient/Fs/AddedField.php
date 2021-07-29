@@ -8,7 +8,7 @@ class AddedField
     private $fieldValue;
     private $callback;
 
-    public function __construct($fieldName, $fieldValue, Closure $callback = null)
+    public function __construct($fieldName, $fieldValue, \Closure $callback = null)
     {
         $this->fieldName = $fieldName;
         $this->fieldValue = $fieldValue;
@@ -21,18 +21,18 @@ class AddedField
     }
 
     /**
-     * @return Closure
+     * @return \Closure
      */
-    public function getCallback(): Closure
+    public function getCallback(): \Closure
     {
         return $this->callback;
     }
 
     /**
-     * @param Closure $callback
+     * @param \Closure $callback
      * @return AddedField
      */
-    public function setCallback(Closure $callback): AddedField
+    public function setCallback(\Closure $callback): AddedField
     {
         $this->callback = $callback;
         return $this;

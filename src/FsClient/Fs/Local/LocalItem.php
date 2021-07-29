@@ -16,7 +16,7 @@ use Tertere\FsClient\Fs\ItemInterface;
  */
 class LocalItem extends AbstractItem implements ItemInterface
 {
-    protected $oFs;
+    protected Filesystem $oFs;
     protected $pathinfo;
 
     use LocalTrait;

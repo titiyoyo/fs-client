@@ -1,10 +1,4 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: terencepires
- * Date: 08/04/2017
- * Time: 09:54
- */
 
 namespace Tertere\Test;
 
@@ -13,6 +7,9 @@ use \Tertere\FsClient\Utilities\Validation;
 
 class ValidationTest extends TestCase
 {
+    /**
+     * @covers Validation::checkIdx
+     */
     public function testCheckIdx()
     {
         $array = [

@@ -2,11 +2,11 @@
 
 namespace Tertere\FsClient\Fs\Local;
 
+use Symfony\Component\Filesystem\Exception\IOException;
 use Symfony\Component\Filesystem\Filesystem;
 use Tertere\FsClient\Fs\AbstractDirectory;
 use Tertere\FsClient\Fs\DirectoryInterface;
 use Tertere\FsClient\Fs\ItemInterface;
-use Tertere\FsClient\Fs\Local\LocalItem;
 
 class LocalDirectory extends AbstractDirectory implements DirectoryInterface, ItemInterface
 {
@@ -66,16 +66,11 @@ class LocalDirectory extends AbstractDirectory implements DirectoryInterface, It
 
     public function mkdir($name)
     {
-        try {
-            if (!is_writable($this->path)) {
-                throw new IOException("path " . $this->path . " is not writeable", null, null, $this->path);
-            }
-
-            $this->oFs->mkdir($this->path . "/" . $name);
-        } catch (IOExceptionInterface $e) {
-            $this->logger->error(__METHOD__ . " - " . $e->getMessage() . " on path " . $e->getPath() . " at line " . $e->getLine() . " in file " . $e->getFile());
-            throw $e;
+        if (!is_writable($this->path)) {
+            throw new IOException("path " . $this->path . " is not writeable", null, null, $this->path);
         }
+
+        $this->oFs->mkdir($this->path . "/" . $name);
     }
 
     public static function create($path)
@@ -85,16 +80,13 @@ class LocalDirectory extends AbstractDirectory implements DirectoryInterface, It
 
     public function rename($newName)
     {
-        try {
-            if (!is_writable($this->path)) {
-                throw new IOException("path " . $this->path . " is not writeable", null, null, $this->path);
-            }
-
-            $this->oFs->rename($this->path, basename($this->path) . "/" .  $newName);
-        } catch (IOExceptionInterface $e) {
-            $this->logger->error(__METHOD__ . " - " . $e->getMessage() . " on path " . $e->getPath() . " at line " . $e->getLine() . " in file " . $e->getFile());
-            throw $e;
+        if (!is_writable($this->path)) {
+            throw new IOException("path " . $this->path . " is not writeable", null, null, $this->path);
         }
+
+        $newName = dirname($this->path) . '/' . preg_replace('/\..?\//', '', $newName);
+        $this->oFs->rename($this->path, $newName);
+        $this->path = $newName;
     }
 
     public function delete(): bool

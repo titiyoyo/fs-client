@@ -4,28 +4,30 @@ namespace Tertere\FsClient\Fs;
 
 abstract class AbstractItem
 {
-    protected $mimeType;
-    protected $dirname;
-    protected $filename;
-    protected $size;
-    protected $sizeFormated;
-    protected $isDir;
-    protected $isFile;
-    protected $isLink;
-    protected $path;
-    protected $extension;
-    protected $creationDate;
-    protected $modificationDate;
-    protected $type;
+    protected ?string $mimeType;
+    protected string $dirname;
+    protected string $filename;
+    protected ?string $size;
+    protected ?string $sizeFormated;
+    protected string $path;
+    protected ?string $extension;
+    protected string $type;
+    protected string $uid;
+    protected ?string $creationDate;
+    protected ?string $modificationDate;
+
+    protected bool $isDir;
+    protected bool $isFile;
+    protected bool $isLink;
+
+    protected int $sizeInt;
 
     public function toJson()
     {
         return json_encode($this->toArray());
     }
 
-    public function toArray(
-        \Closure $closure = null
-    ) {
+    public function toArray(\Closure $closure = null) {
         $array = [
             "path" => $this->path,
             "filename" => $this->filename,
@@ -83,75 +85,46 @@ abstract class AbstractItem
         }
     }
 
-    /**
-     * @return mixed
-     */
     public function getMimeType()
     {
         return $this->mimeType;
     }
 
-    /**
-     * @return mixed
-     */
     public function getDirname()
     {
         return $this->dirname;
     }
 
-    /**
-     * @return mixed
-     */
     public function getFilename()
     {
         return $this->filename;
     }
 
-    /**
-     * @return mixed
-     */
     public function getSize()
     {
         return $this->size;
     }
 
-    /**
-     * @return mixed
-     */
     public function getSizeInt()
     {
         return $this->sizeInt;
     }
 
-    /**
-     * @return mixed
-     */
     public function getSizeFormated()
     {
         return $this->sizeFormated;
     }
 
-
-
-    /**
-     * @return mixed
-     */
     public function getExtension()
     {
         return $this->extension;
     }
 
-    /**
-     * @return mixed
-     */
     public function getCreationDate()
     {
         return $this->creationDate;
     }
 
-    /**
-     * @return mixed
-     */
     public function getModificationDate()
     {
         return $this->modificationDate;

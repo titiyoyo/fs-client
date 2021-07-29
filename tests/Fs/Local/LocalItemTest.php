@@ -3,7 +3,7 @@
 namespace Tertere\Test\Fs\Local;
 
 use \PHPUnit\Framework\TestCase;
-use PHPUnit\Util\Filesystem;
+use \Symfony\Component\Filesystem\Filesystem;
 use Tertere\FsClient\Fs\Local\LocalItem;
 use Tertere\FsClient\Exception\FsClientConfigException;
 
@@ -11,18 +11,9 @@ class LocalItemTest extends TestCase
 {
     private $testDir = "./tmp";
 
-    public function testConstruct()
-    {
-        try {
-            new LocalItem("toto");
-        } catch (FsClientConfigException $ex) {
-            $this->assertTrue(true);
-        }
-
-        $localItem = new LocalItem(__FILE__);
-        $this->assertTrue(true);
-    }
-
+    /**
+     * @covers \Tertere\FsClient\Fs\Local\LocalItem::rename
+     */
     public function testFileRename()
     {
         $paths = self::getPaths();
@@ -31,8 +22,13 @@ class LocalItemTest extends TestCase
         $this->assertTrue(true);
         $this->assertTrue($this->checkFileExistence($paths["fileRenamed"]));
         $this->assertFalse($this->checkFileExistence($paths["file"]));
+
+        $this->removeTestFiles();
     }
 
+    /**
+     * @covers \Tertere\FsClient\Fs\Local\LocalItem::rename
+     */
     public function testDirRename()
     {
         $paths = self::getPaths();
@@ -41,8 +37,13 @@ class LocalItemTest extends TestCase
         $this->assertTrue(true);
         $this->assertTrue($this->checkFileExistence($paths["dirRenamed"]));
         $this->assertFalse($this->checkFileExistence($paths["dir"]));
+
+        $this->removeTestFiles();
     }
 
+    /**
+     * @covers \Tertere\FsClient\Fs\Local\LocalItem::rename
+     */
     public function testLinkRename()
     {
         $paths = self::getPaths();
@@ -51,8 +52,13 @@ class LocalItemTest extends TestCase
         $this->assertTrue(true);
         $this->assertTrue($this->checkFileExistence($paths["linkRenamed"]));
         $this->assertFalse($this->checkFileExistence($paths["link"]));
+
+        $this->removeTestFiles();
     }
 
+    /**
+     * @covers \Tertere\FsClient\Fs\Local\LocalItem::delete
+     */
     public function testDeleteFile()
     {
         $paths = self::getPaths();
@@ -60,8 +66,13 @@ class LocalItemTest extends TestCase
         $localFile->delete();
         $this->assertTrue(true);
         $this->assertFalse($this->checkFileExistence($paths["file"]));
+
+        $this->removeTestFiles();
     }
 
+    /**
+     * @covers \Tertere\FsClient\Fs\Local\LocalItem::delete
+     */
     public function testDeleteDir()
     {
         $paths = self::getPaths();
@@ -69,8 +80,13 @@ class LocalItemTest extends TestCase
         $localDir->delete();
         $this->assertTrue(true);
         $this->assertFalse($this->checkFileExistence($paths["dir"]));
+
+        $this->removeTestFiles();
     }
 
+    /**
+     * @covers \Tertere\FsClient\Fs\Local\LocalItem::delete
+     */
     public function testDeleteLink()
     {
         $paths = self::getPaths();
@@ -78,8 +94,14 @@ class LocalItemTest extends TestCase
         $localLink->delete();
         $this->assertTrue(true);
         $this->assertFalse($this->checkFileExistence($paths["link"]));
+
+        $this->removeTestFiles();
     }
 
+    /**
+     * @covers \Tertere\FsClient\Fs\Local\LocalItem::toArray
+     * @covers \Tertere\FsClient\Fs\Local\LocalItem::toJson
+     */
     public function testFileToArray()
     {
         $paths = self::getPaths();
@@ -89,8 +111,14 @@ class LocalItemTest extends TestCase
 
         $json = $localFile->toJson();
         $this->assertTrue(is_array(json_decode($json, true)));
+
+        $this->removeTestFiles();
     }
 
+    /**
+     * @covers \Tertere\FsClient\Fs\Local\LocalItem::toArray
+     * @covers \Tertere\FsClient\Fs\Local\LocalItem::toJson
+     */
     public function testDirToArray()
     {
         $paths = self::getPaths();
@@ -100,9 +128,15 @@ class LocalItemTest extends TestCase
 
         $json = $localDir->toJson();
         $this->assertTrue(is_array(json_decode($json, true)));
+
+        $this->removeTestFiles();
     }
 
-    public function testLinkToArray()
+    /**
+     * @covers \Tertere\FsClient\Fs\Local\LocalItem::toArray
+     * @covers \Tertere\FsClient\Fs\Local\LocalItem::toJson
+     */
+    public function testLinksToArray()
     {
         $paths = self::getPaths();
         $localLink = new LocalItem($paths["link"]);
@@ -111,8 +145,13 @@ class LocalItemTest extends TestCase
 
         $json = $localLink->toJson();
         $this->assertTrue(is_array(json_decode($json, true)));
+
+        $this->removeTestFiles();
     }
 
+    /**
+     * @covers \Tertere\FsClient\Fs\Local\LocalItem::getRelativePathTo
+     */
     public function testGetRelativePathTo()
     {
         $paths = self::getPaths();
@@ -121,16 +160,14 @@ class LocalItemTest extends TestCase
         $this->assertEquals(".", $relativePath);
         $relativePath = $localFile->getRelativePathTo("..");
         $this->assertEquals("..", $relativePath);
-        $relativePath = $localFile->getRelativePathTo("/Users");
-        $this->assertEquals("../../../..", $relativePath);
-        $relativePath = $localFile->getRelativePathTo("/");
-        $this->assertEquals("../../../../..", $relativePath);
         $relativePath = $localFile->getRelativePathTo($paths["file"]);
         $this->assertEquals(".", $relativePath);
         $relativePath = $localFile->getRelativePathTo("./toto/truc");
         $this->assertEquals("./toto/truc", $relativePath);
         $relativePath = $localFile->getRelativePathTo("toto/truc");
         $this->assertEquals("toto/truc", $relativePath);
+
+        $this->removeTestFiles();
     }
 
     private function checkFileExistence($file)
@@ -140,7 +177,7 @@ class LocalItemTest extends TestCase
 
     private function getPaths()
     {
-        $ofs = new \Symfony\Component\Filesystem\Filesystem();
+        $ofs = new Filesystem();
         $ofs->remove(realpath(dirname($this->testDir)) . "/" . basename($this->testDir));
         mkdir(realpath(dirname($this->testDir)) . "/" . basename($this->testDir), 0777, true);
 
@@ -158,5 +195,13 @@ class LocalItemTest extends TestCase
         symlink($paths["file"], $paths["link"]);
 
         return $paths;
+    }
+
+    private function removeTestFiles()
+    {
+        $ofs = new Filesystem();
+        if ($ofs->exists($this->testDir)) {
+            $ofs->remove($this->testDir);
+        }
     }
 }

@@ -2,7 +2,7 @@ version: "3.9"
 
 services:
   php:
-    image: titiyoyo/php:8
+    image: titiyoyo/php:8-alpine
     volumes:
       - .:/var/www
     networks:

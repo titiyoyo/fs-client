@@ -8,18 +8,21 @@
 
 namespace Tertere\FsClient\Fs;
 
+use Tertere\FsClient\Exception\FsClientConfigException;
+
 abstract class AbstractConfig
 {
-    protected $rootDir;
-    protected $tmpDir;
-    protected $settingsArray;
+    protected string $rootDir;
+    protected string $tmpDir;
+    protected array $settingsArray;
+    protected int $defaultPermissions;
 
     final public function __construct($settingsArray)
     {
         $this->validateConfiguration($settingsArray);
         $this->rootDir = $settingsArray["rootDir"];
         $this->tmpDir = $settingsArray["tmpDir"];
-        $this->defaultPermissions = $settingsArray["defaultPermissions"] ?? null;
+        $this->defaultPermissions = (int)$settingsArray["defaultPermissions"] ?? null;
         $this->settingsArray = $settingsArray;
     }
 

@@ -8,33 +8,27 @@ use Tertere\FsClient\Exception\FsClientConfigException;
 
 class LocalConfigTest extends TestCase
 {
-    public function testConstruct()
-    {
-        try {
-            new LocalConfig([]);
-        } catch (FsClientConfigException $ex) {
-            $this->assertTrue(true);
-        }
-
-        try {
-            new LocalConfig(["rootDir" => "", "tmpDir"]);
-        } catch (FsClientConfigException $ex) {
-            $this->assertTrue(true);
-        }
-    }
-
+    /**
+     * @covers \Tertere\FsClient\Fs\Local\LocalConfig::isConfigured
+     */
     public function testIsConfigured()
     {
         $config = new LocalConfig($this->getParamsArray());
         $this->assertTrue($config->isConfigured());
     }
 
+    /**
+     * @covers \Tertere\FsClient\Fs\Local\LocalConfig::toArray
+     */
     public function testToArray()
     {
         $config = new LocalConfig($this->getParamsArray());
         $this->assertEquals($config->toArray(), $this->getParamsArray());
     }
 
+    /**
+     * @covers \Tertere\FsClient\Fs\Local\LocalConfig::setRootDir
+     */
     public function testSetRootDir()
     {
         $params = $this->getParamsArray();
@@ -53,6 +47,9 @@ class LocalConfigTest extends TestCase
         $this->assertTrue(true);
     }
 
+    /**
+     * @covers \Tertere\FsClient\Fs\Local\LocalConfig::setTmpDir
+     */
     public function testSetTmpDir()
     {
         $params = $this->getParamsArray();

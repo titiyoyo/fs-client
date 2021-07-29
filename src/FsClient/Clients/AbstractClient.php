@@ -3,18 +3,12 @@
 namespace Tertere\FsClient\Clients;
 
 use Psr\Log\LoggerInterface;
-use Symfony\Component\VarDumper\Cloner\VarCloner;
-use Symfony\Component\VarDumper\Dumper\CliDumper;
-use Symfony\Component\VarDumper\VarDumper;
 use Tertere\FsClient\Fs\ConfigInterface;
-use Tertere\FsClient\User\FsUser;
-use Tertere\FsClient\Utilities\Logger;
 
 abstract class AbstractClient
 {
-    protected $logger;
-    protected $config;
-    protected $user;
+    protected LoggerInterface $logger;
+    protected ConfigInterface $config;
 
     abstract public function isConfigured();
     abstract public function get($file);
@@ -33,28 +27,12 @@ abstract class AbstractClient
     public function __construct(ConfigInterface $config, LoggerInterface $logger)
     {
         $this->config = $config;
-        $this->logger = new Logger($logger, new VarCloner(), new CliDumper());
+        $this->logger = $logger;
     }
 
     public function getConfig() :ConfigInterface
     {
         return $this->config;
-    }
-
-    public function getBreadcumbArray($path)
-    {
-        $absolutePath = realpath($this->rootDir);
-        $homeDirAbsolutePath = realpath($absolutePath . "/" . $this->homeDir);
-        $relativeHome = str_replace($absolutePath, "", $homeDirAbsolutePath);
-
-        return
-            explode("/",
-                preg_replace(
-                    "#^/?/#",
-                    "",
-                    str_replace($this->homeDir, "", $relativeHome . "/" . $path)
-                )
-            );
     }
 
     public function compress(array $pathArray)
@@ -82,6 +60,8 @@ abstract class AbstractClient
             throw new \Exception(__METHOD__ . " - No file submited");
         }
     }
+
+    public abstract function isAllowed($path): bool;
 
     public function getRootDir()
     {

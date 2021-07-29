@@ -3,6 +3,7 @@
 namespace Tertere\FsClient\Fs\Ftp;
 
 use \Tertere\FsClient\Fs\AbstractItem;
+use Tertere\FsClient\Fs\ItemInterface;
 
 /**
  * Created by JetBrains PhpStorm.
@@ -11,7 +12,7 @@ use \Tertere\FsClient\Fs\AbstractItem;
  * Time: 07:12
  * To change this template use File | Settings | File Templates.
  */
-class FtpItem extends AbstractItem
+class FtpItem extends AbstractItem implements ItemInterface
 {
     public $permissions;
     public $num;
@@ -85,13 +86,28 @@ class FtpItem extends AbstractItem
         return json_encode($this->getInfoArray());
     }
 
-    public function toArray()
+    public function toArray(\Closure $closure = null)
     {
-
+        return [];
     }
 
     public function rename($newFilename)
     {
         // TODO: Implement rename() method.
+    }
+
+    public function getRelativePathTo($path)
+    {
+        // TODO: Implement getRelativePathTo() method.
+    }
+
+    public function getParent()
+    {
+        // TODO: Implement getParent() method.
+    }
+
+    public function delete(): bool
+    {
+        // TODO: Implement delete() method.
     }
 }

@@ -10,7 +10,8 @@ class FtpDirectory extends AbstractDirectory implements DirectoryInterface
 {
     /** @var int id de connexion au ftp */
     private $connId = null;
-    /** @var id de connexion au ftp */
+
+    /** @var int id de connexion au ftp */
     private $isLogged = false;
 
     protected $ftpAddress;
@@ -48,11 +49,10 @@ class FtpDirectory extends AbstractDirectory implements DirectoryInterface
 
         $this->config = $ftpSettings;
         $this->rootDir = $this->ftpRootDir;
-        $this->tmpDir = $this->tmpDir;
         $this->homeDir = $this->ftpRootDir . "/" . $this->userRootDir;
     }
 
-    public function getAbsolutePath($path)
+    public function getAbsolutePath($path): string
     {
     }
 
@@ -64,7 +64,7 @@ class FtpDirectory extends AbstractDirectory implements DirectoryInterface
     /**
      * opens a connection to the server with the specified parameters
      * @return bool
-     * @throws Exception
+     * @throws \Exception
      */
     private function connect()
     {

@@ -14,8 +14,6 @@ interface ClientInterface
     public function mkdir($path);
     public function getRelativePath($file, $path): string;
     public function getConfig(): ConfigInterface;
-    public function delete();
-    public function rename($newName);
     public function getRootDir();
     public function getTmpDir();
     public function toArray();

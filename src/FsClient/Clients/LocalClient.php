@@ -1,35 +1,19 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: terencepires
- * Date: 02/04/2017
- * Time: 17:42
- */
 
 namespace Tertere\FsClient\Clients;
 
 use Psr\Log\LoggerInterface;
-use Symfony\Component\Filesystem\Exception\IOException;
 use Tertere\FsClient\Fs\DirectoryInterface;
 use Tertere\FsClient\Fs\ItemInterface;
 use Tertere\FsClient\Fs\Local\LocalConfig;
 use Tertere\FsClient\Fs\Local\LocalDirectory;
 use Tertere\FsClient\Fs\Local\LocalItem;
-use Tertere\FsClient\User\User;
 use Symfony\Component\Filesystem\Filesystem;
-use Symfony\Component\Filesystem\Exception\IOExceptionInterface;
-use Symfony\Component\Finder\Finder;
 
 class LocalClient extends AbstractClient implements ClientInterface
 {
-    const MODE = 1;
-
-    private $fsObj;
-
-    /**
-     * @var LocalDirectory
-     */
-    private $currentDir;
+    private Filesystem $fsObj;
+    private DirectoryInterface $currentDir;
 
     public function __construct(LocalConfig $config, LoggerInterface $logger)
     {
@@ -44,9 +28,22 @@ class LocalClient extends AbstractClient implements ClientInterface
 
     public function browse($path): DirectoryInterface
     {
+        if (!$this->isAllowed($path)) {
+            throw new \Exception('Path ' . $path . ' is forbidden');
+        }
+
         $abspath = $this->getAbsPath($path);
+
         $this->currentDir = new LocalDirectory($abspath);
         return $this->currentDir;
+    }
+
+    public function isAllowed($path): bool
+    {
+        $rootDirPath = realpath($this->getConfig()->getRootDir());
+        $requestedPath = realpath($this->getConfig()->getRootDir() . '/' . $path);
+
+        return substr($requestedPath, 0, strlen($rootDirPath)) === $rootDirPath;
     }
 
     public function getAbsPath($path)
@@ -79,59 +76,34 @@ class LocalClient extends AbstractClient implements ClientInterface
 
     public function delete()
     {
-        try {
-            return $this->currentDir->delete();
-        } catch (IOExceptionInterface $e) {
-            $this->logger->error(__METHOD__ . " - " . $e->getMessage() . " on path " . $this->currentDir->getPath() . " at line " . $e->getLine() . " in file " . $e->getFile());
-            throw $e;
-        }
+        return $this->currentDir->delete();
     }
 
     public function mkdir($name)
     {
-        try {
-            $this->currentDir->mkdir($name);
-        } catch (IOExceptionInterface $e) {
-            $this->logger->error(__METHOD__ . " - " . $e->getMessage() . " on path " . $e->getPath() . " at line " . $e->getLine() . " in file " . $e->getFile());
-            throw $e;
-        }
+        $this->currentDir->mkdir($name);
     }
 
     public function get($path): ItemInterface
     {
         if (!$this->fsObj->exists($this->getRootDir() . "/" . $path))
-            throw new \Exception(__METHOD__ . " - File " . $path . " does not exist on line " . __LINE__ . " in file " . __FILE__, 1);
+            throw new \Exception(__METHOD__ . " - file " . $path . " does not exist", 1);
 
         return new LocalItem($this->getRootDir() . "/" . $path);
     }
 
-    public function rename($newName)
-    {
-        try {
-            return $this->currentDir->rename($newName);
-        } catch (IOExceptionInterface $e) {
-            $this->logger->error(__METHOD__ . " - " . $e->getMessage() . " on path " . $e->getPath() . " at line " . $e->getLine() . " in file " . $e->getFile());
-            throw $e;
-        }
-    }
-
-    public function toArray()
+    public function toArray(): array
     {
         return $this->currentDir->toArray();
     }
 
     public function clearTmpFiles()
     {
-        try {
-            $dirs = array_diff(scandir($this->getConfig()->getTmpDir()), ['..', '.']);
-            foreach ($dirs as $dir) {
-                $this->fsObj->remove(
-                    $this->getConfig()->getTmpDir() . '/' . $dir
-                );
-            }
-        } catch (\Throwable $e) {
-            $this->logger->error(__METHOD__ . " - " . $e->getMessage() . " at line " . $e->getLine() . " in file " . $e->getFile());
-            throw $e;
+        $dirs = array_diff(scandir($this->getConfig()->getTmpDir()), ['..', '.']);
+        foreach ($dirs as $dir) {
+            $this->fsObj->remove(
+                $this->getConfig()->getTmpDir() . '/' . $dir
+            );
         }
     }
 }

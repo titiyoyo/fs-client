@@ -1,50 +1,68 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: terencepires
- * Date: 08/04/2017
- * Time: 09:53
- */
 
 namespace Tertere\Test;
 
 use Symfony\Component\Filesystem\Filesystem;
 use Psr\Log\LoggerInterface;
 use PHPUnit\Framework\TestCase;
-use Symfony\Component\VarDumper\VarDumper;
 use Tertere\FsClient\Clients\LocalClient;
 use Tertere\FsClient\Fs\Local\LocalConfig;
 
 class LocalClientTest extends TestCase
 {
-    private $testDir = "./tmp/localClientTest";
-    private $testDirRenamed = "./tmp/localClientTestRenamed";
+    private string $tmpPath = "./tmp";
+    private string $testDir = "./tmp/localClientTest";
+    private string $testDirRenamed = "./tmp/localClientTestRenamed";
 
+    /**
+     * @covers \Tertere\FsClient\Clients\LocalClient::browse
+     */
     public function testBrowse() {
-        $paths = $this->setupTest();
+        $this->setupTest();
         $client = new LocalClient(
-            $this->getConfig(),
-            $this->getLogger()
+            new LocalConfig([
+                "rootDir" => realpath($this->testDir),
+                "tmpDir" => "/tmp",
+                "defaultPermissions" => "2755"
+            ]),
+            $this->createMock(LoggerInterface::class)
         );
 
-        $dir = $client->browse("..");
-        $this->assertEquals($dir->getPath(), realpath($client->getRootDir() . "/.."));
-        $dir = $client->browse(dirname($paths["dir"]));
+        $dir = $client->browse(".");
+        $this->assertEquals(realpath($dir->getPath()), realpath($client->getRootDir()));
+        $client->mkdir('test2');
+        $this->assertTrue(file_exists(realpath($client->getRootDir() . '/test2')));
+        $client->mkdir('test2/test3');
+        $this->assertTrue(file_exists(realpath($client->getRootDir() . '/test2/test3')));
         $this->assertEquals(2, count($dir->getFiles()));
         $this->assertEquals( 3, count($dir->getItems()));
         $this->assertEquals( 1, count($dir->getDirs()));
+        $dir = $client->browse('test2/test3');
+        $this->assertEquals($dir->getPath(), realpath($client->getRootDir() . "/test2/test3"));
+
+        $this->removeTestFiles();
     }
 
-    private function getConfig() {
-        return new LocalConfig([
-            "rootDir" => dirname(__FILE__),
-            "tmpDir" => "/tmp",
-            "defaultPermissions" => "2755"
-        ]);
-    }
+    /**
+     * @covers \Tertere\FsClient\Clients\LocalClient::browse
+     */
+    public function testNotAllowed()
+    {
+        $this->expectException(\Exception::class);
 
-    private function getLogger() {
-        return $this->createMock(LoggerInterface::class);
+        $this->setupTest();
+        $client = new LocalClient(
+            new LocalConfig([
+                "rootDir" => realpath($this->testDir),
+                "tmpDir" => "/tmp",
+                "defaultPermissions" => "2755"
+            ]),
+            $this->createMock(LoggerInterface::class)
+        );
+
+        $client->browse("..");
+
+        $this->removeTestFiles();
     }
 
     private function setupTest()
@@ -66,5 +84,13 @@ class LocalClientTest extends TestCase
         symlink($paths["file"], $paths["link"]);
 
         return $paths;
+    }
+
+    private function removeTestFiles()
+    {
+        $ofs = new Filesystem();
+        if ($ofs->exists($this->tmpPath)) {
+            $ofs->remove($this->tmpPath);
+        }
     }
 }

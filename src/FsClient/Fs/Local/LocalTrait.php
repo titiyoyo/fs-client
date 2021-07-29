@@ -67,8 +67,8 @@ trait LocalTrait
 
     private function checkFileType($path, $type)
     {
-        $output = trim(shell_exec('if [ -$type "' . $path . '" ]; then echo true; else echo false; fi'));
-        return $output === 'true' ? true : false;
+        $output = trim(shell_exec("if [ -${type} ${path} ]; then echo true; else echo false; fi"));
+        return $output === 'true';
     }
 
     public function mimeType($path)
@@ -136,6 +136,10 @@ trait LocalTrait
 
     public function filesize($path)
     {
+        if (is_dir($path)) {
+            return null;
+        }
+
         $size = null;
 
         try {

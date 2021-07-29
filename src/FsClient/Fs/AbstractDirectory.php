@@ -1,10 +1,4 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: terencepires
- * Date: 02/04/2017
- * Time: 17:32
- */
 
 namespace Tertere\FsClient\Fs;
 
@@ -13,12 +7,12 @@ use Tertere\FsClient\Exception\FsClientConfigException;
 
 abstract class AbstractDirectory extends AbstractItem
 {
-    protected $items = [];
-    protected $path;
-    protected $deleted;
-    protected $dirs = [];
-    protected $files = [];
-    protected $links = [];
+    protected array $items = [];
+    protected string $path;
+    protected bool $deleted;
+    protected array $dirs = [];
+    protected array $files = [];
+    protected array $links = [];
 
     protected $excludedFiles = [
         ".", "..", ".DS_Store"
@@ -41,7 +35,7 @@ abstract class AbstractDirectory extends AbstractItem
         throw new FileNotFoundException("Couldn't find file " . $filename . ", can't rename");
     }
 
-    public function getPath()
+    public function getPath(): string
     {
         return $this->path;
     }

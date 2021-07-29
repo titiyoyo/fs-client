@@ -8,12 +8,17 @@ use Tertere\FsClient\Fs\Local\LocalDirectory;
 
 class LocalDirectoryTest extends TestCase
 {
+    private $tmpPath = "./tmp";
     private $testDir = "./tmp/directoryTest";
-    private $testDirRenamed = "./tmp/directoryTestRenamed";
+    private $testDirRenamed = "directoryTestRenamed";
 
+    /**
+     * @covers \Tertere\FsClient\Fs\Local\LocalDirectory::getDirs
+     * @covers \Tertere\FsClient\Fs\Local\LocalDirectory::isDir
+     */
     public function testGetDirs()
     {
-        $paths = $this->setupTest();
+        $this->setupTest();
         $oDirectory = new LocalDirectory($this->testDir);
         $dirs = $oDirectory->getDirs();
         $this->assertTrue(is_array($dirs));
@@ -22,11 +27,17 @@ class LocalDirectoryTest extends TestCase
         foreach ($dirs as $dir) {
             self::assertTrue($dir->isDir());
         }
+
+        $this->removeTestFiles();
     }
 
+    /**
+     * @covers \Tertere\FsClient\Fs\Local\LocalDirectory::getLinks
+     * @covers \Tertere\FsClient\Fs\Local\LocalDirectory::isLink
+     */
     public function testGetLinks()
     {
-        $paths = $this->setupTest();
+        $this->setupTest();
         $oDirectory = new LocalDirectory($this->testDir);
         $links = $oDirectory->getLinks();
         $this->assertTrue(is_array($links));
@@ -35,13 +46,19 @@ class LocalDirectoryTest extends TestCase
         foreach ($links as $link) {
             self::assertTrue($link->isLink());
         }
+
+        $this->removeTestFiles();
     }
 
+    /**
+     * @covers \Tertere\FsClient\Fs\Local\LocalDirectory::getFiles
+     * @covers \Tertere\FsClient\Fs\Local\LocalDirectory::isFile
+     */
     public function testGetFiles()
     {
-        $paths = $this->setupTest();
+        $this->setupTest();
         $oDirectory = new LocalDirectory($this->testDir);
-        $files = $oDirectory->getLinks();
+        $files = $oDirectory->getFiles();
         $this->assertTrue(is_array($files));
         $this->assertTrue(count($files) > 0);
 
@@ -50,45 +67,63 @@ class LocalDirectoryTest extends TestCase
         }
     }
 
+    /**
+     * @covers \Tertere\FsClient\Fs\Local\LocalDirectory::getExcludedFiles
+     */
     public function testGetExcludedFiles()
     {
-        $paths = $this->setupTest();
+        $this->setupTest();
         $oDirectory = new LocalDirectory($this->testDir);
         $exFiles = $oDirectory->getExcludedFiles();
         $this->assertTrue(is_array($exFiles));
+
+        $this->removeTestFiles();
     }
-//
-//    public function testCreateSubDir()
-//    {
-//    }
-//
+
+    /**
+     * @covers \Tertere\FsClient\Fs\Local\LocalDirectory::rename
+     * @covers \Tertere\FsClient\Fs\Local\LocalDirectory::getPath
+     * @covers \Tertere\FsClient\Fs\Local\LocalDirectory::delete
+     */
     public function testRename()
     {
-        $paths = $this->setupTest();
+        $this->setupTest();
         $oDirectory = new LocalDirectory($this->testDir);
         $oDirectory->rename($this->testDirRenamed);
+        self::assertEquals(realpath($this->tmpPath . '/' . $this->testDirRenamed), $oDirectory->getPath());
         self::assertTrue(file_exists($oDirectory->getPath()));
         $oDirectory->delete();
+        self::assertTrue(!file_exists($oDirectory->getPath()));
+
+        $this->removeTestFiles();
     }
 
     private function setupTest()
     {
         $ofs = new Filesystem();
-        $ofs->remove($this->testDir);
-        $ofs->remove($this->testDirRenamed);
+        if ($ofs->exists($this->tmpPath)) {
+            $ofs->remove($this->tmpPath);
+        }
 
-        mkdir($this->testDir, 0777, true);
-
+        $ofs->mkdir([$this->testDir]);
         $paths = [
             "file" => realpath($this->testDir) . "/testFile.txt",
             "dir" => realpath($this->testDir) . "/testDir",
             "link" => realpath($this->testDir) . "/testLink"
         ];
 
-        touch($paths["file"]);
-        mkdir($paths["dir"]);
-        symlink($paths["file"], $paths["link"]);
+        $ofs->touch([$paths["file"]]);
+        $ofs->mkdir([$paths["dir"]]);
+        $ofs->symlink($paths["file"], $paths["link"]);
 
         return $paths;
+    }
+
+    private function removeTestFiles()
+    {
+        $ofs = new Filesystem();
+        if ($ofs->exists($this->tmpPath)) {
+            $ofs->remove($this->tmpPath);
+        }
     }
 }

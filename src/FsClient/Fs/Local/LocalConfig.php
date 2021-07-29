@@ -1,10 +1,4 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: terencepires
- * Date: 02/04/2017
- * Time: 17:32
- */
 
 namespace Tertere\FsClient\Fs\Local;
 
@@ -14,7 +8,7 @@ use Tertere\FsClient\Fs\ConfigInterface;
 
 class LocalConfig extends AbstractConfig implements ConfigInterface
 {
-    protected $defaultPermissions = 2755;
+    protected int $defaultPermissions = 2755;
 
     public function validateConfiguration($paramsArray)
     {
@@ -35,7 +29,7 @@ class LocalConfig extends AbstractConfig implements ConfigInterface
         }
     }
 
-    private function validateDir($path)
+    protected function validateDir($path)
     {
         return realpath($path);
     }
@@ -58,17 +52,11 @@ class LocalConfig extends AbstractConfig implements ConfigInterface
         ];
     }
 
-    /**
-     * @return null
-     */
     public function getRootDir()
     {
         return $this->rootDir;
     }
 
-    /**
-     * @param null $rootDir
-     */
     public function setRootDir($rootDir)
     {
         if (!$this->validateDir($rootDir)) {
@@ -79,17 +67,11 @@ class LocalConfig extends AbstractConfig implements ConfigInterface
         return $this;
     }
 
-    /**
-     * @return null
-     */
     public function getTmpDir()
     {
         return $this->tmpDir;
     }
 
-    /**
-     * @param null $tmpDir
-     */
     public function setTmpDir($tmpDir)
     {
         if (!$this->validateDir($tmpDir)) {
@@ -100,17 +82,11 @@ class LocalConfig extends AbstractConfig implements ConfigInterface
         return $this;
     }
 
-    /**
-     * @return int|null
-     */
     public function getDefaultPermissions()
     {
         return $this->defaultPermissions;
     }
 
-    /**
-     * @param int|null $defaultPermissions
-     */
     public function setDefaultPermissions($defaultPermissions)
     {
         $this->defaultPermissions = $defaultPermissions;
