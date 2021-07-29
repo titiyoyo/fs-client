@@ -16,7 +16,7 @@
         "symfony/var-dumper": ">=3"
     },
     "require-dev": {
-        "phpunit/phpunit": ">=6"
+        "phpunit/phpunit": "^9"
     },
     "autoload": {
         "psr-4": {"Tertere\\": "src"}

@@ -1,0 +1,15 @@
+version: "3.9"
+
+services:
+  php:
+    image: titiyoyo/php:8
+    volumes:
+      - .:/var/www
+    networks:
+      - fs-client
+
+volumes:
+  fs-client:
+
+networks:
+  fs-client:
