@@ -1,11 +1,11 @@
 <?php
 
-namespace Tertere\FsClient\Fs\Local;
+namespace Titiyoyo\FsClient\Fs\Local;
 
 use Symfony\Component\Filesystem\Filesystem;
-use Tertere\FsClient\Exception\FsClientConfigException;
-use Tertere\FsClient\Fs\AbstractItem;
-use Tertere\FsClient\Fs\ItemInterface;
+use Titiyoyo\FsClient\Exception\FsClientConfigException;
+use Titiyoyo\FsClient\Fs\AbstractItem;
+use Titiyoyo\FsClient\Fs\ItemInterface;
 
 /**
  * Created by JetBrains PhpStorm.

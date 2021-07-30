@@ -1,6 +1,6 @@
 <?php
 
-namespace Tertere\FsClient\Fs;
+namespace Titiyoyo\FsClient\Fs;
 
 class AddedField
 {

@@ -1,10 +1,10 @@
 <?php
 
-namespace Tertere\FsClient\Clients;
+namespace Titiyoyo\FsClient\Clients;
 
-use Tertere\FsClient\Fs\ConfigInterface;
-use Tertere\FsClient\Fs\DirectoryInterface;
-use Tertere\FsClient\Fs\ItemInterface;
+use Titiyoyo\FsClient\Fs\ConfigInterface;
+use Titiyoyo\FsClient\Fs\DirectoryInterface;
+use Titiyoyo\FsClient\Fs\ItemInterface;
 
 interface ClientInterface
 {

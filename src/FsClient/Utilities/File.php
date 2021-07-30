@@ -6,7 +6,7 @@
  * Time: 15:28
  */
 
-namespace Tertere\FsClient\Utilities;
+namespace Titiyoyo\FsClient\Utilities;
 
 class File
 {

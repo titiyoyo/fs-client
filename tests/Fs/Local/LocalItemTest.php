@@ -1,18 +1,18 @@
 <?php
 
-namespace Tertere\Test\Fs\Local;
+namespace Titiyoyo\Test\Fs\Local;
 
 use \PHPUnit\Framework\TestCase;
 use \Symfony\Component\Filesystem\Filesystem;
-use Tertere\FsClient\Fs\Local\LocalItem;
-use Tertere\FsClient\Exception\FsClientConfigException;
+use Titiyoyo\FsClient\Fs\Local\LocalItem;
+use Titiyoyo\FsClient\Exception\FsClientConfigException;
 
 class LocalItemTest extends TestCase
 {
     private $testDir = "./tmp";
 
     /**
-     * @covers \Tertere\FsClient\Fs\Local\LocalItem::rename
+     * @covers \Titiyoyo\FsClient\Fs\Local\LocalItem::rename
      */
     public function testFileRename()
     {
@@ -27,7 +27,7 @@ class LocalItemTest extends TestCase
     }
 
     /**
-     * @covers \Tertere\FsClient\Fs\Local\LocalItem::rename
+     * @covers \Titiyoyo\FsClient\Fs\Local\LocalItem::rename
      */
     public function testDirRename()
     {
@@ -42,7 +42,7 @@ class LocalItemTest extends TestCase
     }
 
     /**
-     * @covers \Tertere\FsClient\Fs\Local\LocalItem::rename
+     * @covers \Titiyoyo\FsClient\Fs\Local\LocalItem::rename
      */
     public function testLinkRename()
     {
@@ -57,7 +57,7 @@ class LocalItemTest extends TestCase
     }
 
     /**
-     * @covers \Tertere\FsClient\Fs\Local\LocalItem::delete
+     * @covers \Titiyoyo\FsClient\Fs\Local\LocalItem::delete
      */
     public function testDeleteFile()
     {
@@ -71,7 +71,7 @@ class LocalItemTest extends TestCase
     }
 
     /**
-     * @covers \Tertere\FsClient\Fs\Local\LocalItem::delete
+     * @covers \Titiyoyo\FsClient\Fs\Local\LocalItem::delete
      */
     public function testDeleteDir()
     {
@@ -85,7 +85,7 @@ class LocalItemTest extends TestCase
     }
 
     /**
-     * @covers \Tertere\FsClient\Fs\Local\LocalItem::delete
+     * @covers \Titiyoyo\FsClient\Fs\Local\LocalItem::delete
      */
     public function testDeleteLink()
     {
@@ -99,8 +99,8 @@ class LocalItemTest extends TestCase
     }
 
     /**
-     * @covers \Tertere\FsClient\Fs\Local\LocalItem::toArray
-     * @covers \Tertere\FsClient\Fs\Local\LocalItem::toJson
+     * @covers \Titiyoyo\FsClient\Fs\Local\LocalItem::toArray
+     * @covers \Titiyoyo\FsClient\Fs\Local\LocalItem::toJson
      */
     public function testFileToArray()
     {
@@ -116,8 +116,8 @@ class LocalItemTest extends TestCase
     }
 
     /**
-     * @covers \Tertere\FsClient\Fs\Local\LocalItem::toArray
-     * @covers \Tertere\FsClient\Fs\Local\LocalItem::toJson
+     * @covers \Titiyoyo\FsClient\Fs\Local\LocalItem::toArray
+     * @covers \Titiyoyo\FsClient\Fs\Local\LocalItem::toJson
      */
     public function testDirToArray()
     {
@@ -133,8 +133,8 @@ class LocalItemTest extends TestCase
     }
 
     /**
-     * @covers \Tertere\FsClient\Fs\Local\LocalItem::toArray
-     * @covers \Tertere\FsClient\Fs\Local\LocalItem::toJson
+     * @covers \Titiyoyo\FsClient\Fs\Local\LocalItem::toArray
+     * @covers \Titiyoyo\FsClient\Fs\Local\LocalItem::toJson
      */
     public function testLinksToArray()
     {
@@ -150,7 +150,7 @@ class LocalItemTest extends TestCase
     }
 
     /**
-     * @covers \Tertere\FsClient\Fs\Local\LocalItem::getRelativePathTo
+     * @covers \Titiyoyo\FsClient\Fs\Local\LocalItem::getRelativePathTo
      */
     public function testGetRelativePathTo()
     {

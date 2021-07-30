@@ -1,6 +1,6 @@
 <?php
 
-namespace Tertere\FsClient\Exception;
+namespace Titiyoyo\FsClient\Exception;
 
 class FsClientConfigException extends \Exception
 {

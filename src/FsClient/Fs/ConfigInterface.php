@@ -6,7 +6,7 @@
  * Time: 18:15
  */
 
-namespace Tertere\FsClient\Fs;
+namespace Titiyoyo\FsClient\Fs;
 
 
 interface ConfigInterface

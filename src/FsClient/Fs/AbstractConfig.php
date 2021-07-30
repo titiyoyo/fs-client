@@ -6,9 +6,9 @@
  * Time: 16:48
  */
 
-namespace Tertere\FsClient\Fs;
+namespace Titiyoyo\FsClient\Fs;
 
-use Tertere\FsClient\Exception\FsClientConfigException;
+use Titiyoyo\FsClient\Exception\FsClientConfigException;
 
 abstract class AbstractConfig
 {

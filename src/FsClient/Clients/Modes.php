@@ -1,6 +1,6 @@
 <?php
 
-namespace Tertere\FsClient\Clients;
+namespace Titiyoyo\FsClient\Clients;
 
 class Modes
 {

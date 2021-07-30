@@ -1,5 +1,5 @@
 {
-  "name": "titiyoyo/sf-fsclient",
+  "name": "titiyoyo/fs-client",
   "description": "An agnostic client to different file services",
   "type": "library",
   "license": "MIT",
@@ -23,7 +23,7 @@
     "jaschilz/php-coverage-badger": "dev-master"
   },
   "autoload": {
-    "psr-4": {"Tertere\\": "src"}
+    "psr-4": {"Titiyoyo\\": "src"}
   },
   "extra": {
     "branch-alias": {

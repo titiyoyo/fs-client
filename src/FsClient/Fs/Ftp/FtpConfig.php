@@ -1,8 +1,8 @@
 <?php
 
-namespace Tertere\FsClient\Fs\Ftp;
+namespace Titiyoyo\FsClient\Fs\Ftp;
 
-use Tertere\FsClient\Fs\AbstractConfig;
+use Titiyoyo\FsClient\Fs\AbstractConfig;
 
 class FtpConfig extends AbtractConfig implements ConfigInterface
 {

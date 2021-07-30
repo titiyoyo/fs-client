@@ -1,12 +1,12 @@
 <?php
 
-namespace Tertere\Test;
+namespace Titiyoyo\Test;
 
 use Symfony\Component\Filesystem\Filesystem;
 use Psr\Log\LoggerInterface;
 use PHPUnit\Framework\TestCase;
-use Tertere\FsClient\Clients\LocalClient;
-use Tertere\FsClient\Fs\Local\LocalConfig;
+use Titiyoyo\FsClient\Clients\LocalClient;
+use Titiyoyo\FsClient\Fs\Local\LocalConfig;
 
 class LocalClientTest extends TestCase
 {
@@ -15,7 +15,7 @@ class LocalClientTest extends TestCase
     private string $testDirRenamed = "./tmp/localClientTestRenamed";
 
     /**
-     * @covers \Tertere\FsClient\Clients\LocalClient::browse
+     * @covers \Titiyoyo\FsClient\Clients\LocalClient::browse
      */
     public function testBrowse() {
         $this->setupTest();
@@ -44,7 +44,7 @@ class LocalClientTest extends TestCase
     }
 
     /**
-     * @covers \Tertere\FsClient\Clients\LocalClient::browse
+     * @covers \Titiyoyo\FsClient\Clients\LocalClient::browse
      */
     public function testNotAllowed()
     {

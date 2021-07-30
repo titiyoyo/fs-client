@@ -1,9 +1,9 @@
 <?php
 
-namespace Tertere\Test;
+namespace Titiyoyo\Test;
 
 use \PHPUnit\Framework\TestCase;
-use \Tertere\FsClient\Utilities\Validation;
+use \Titiyoyo\FsClient\Utilities\Validation;
 
 class ValidationTest extends TestCase
 {

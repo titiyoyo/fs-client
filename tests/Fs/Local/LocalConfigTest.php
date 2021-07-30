@@ -1,15 +1,15 @@
 <?php
 
-namespace Tertere\Test\Fs\Local;
+namespace Titiyoyo\Test\Fs\Local;
 
 use \PHPUnit\Framework\TestCase;
-use Tertere\FsClient\Fs\Local\LocalConfig;
-use Tertere\FsClient\Exception\FsClientConfigException;
+use Titiyoyo\FsClient\Fs\Local\LocalConfig;
+use Titiyoyo\FsClient\Exception\FsClientConfigException;
 
 class LocalConfigTest extends TestCase
 {
     /**
-     * @covers \Tertere\FsClient\Fs\Local\LocalConfig::isConfigured
+     * @covers \Titiyoyo\FsClient\Fs\Local\LocalConfig::isConfigured
      */
     public function testIsConfigured()
     {
@@ -18,7 +18,7 @@ class LocalConfigTest extends TestCase
     }
 
     /**
-     * @covers \Tertere\FsClient\Fs\Local\LocalConfig::toArray
+     * @covers \Titiyoyo\FsClient\Fs\Local\LocalConfig::toArray
      */
     public function testToArray()
     {
@@ -27,7 +27,7 @@ class LocalConfigTest extends TestCase
     }
 
     /**
-     * @covers \Tertere\FsClient\Fs\Local\LocalConfig::setRootDir
+     * @covers \Titiyoyo\FsClient\Fs\Local\LocalConfig::setRootDir
      */
     public function testSetRootDir()
     {
@@ -48,7 +48,7 @@ class LocalConfigTest extends TestCase
     }
 
     /**
-     * @covers \Tertere\FsClient\Fs\Local\LocalConfig::setTmpDir
+     * @covers \Titiyoyo\FsClient\Fs\Local\LocalConfig::setTmpDir
      */
     public function testSetTmpDir()
     {

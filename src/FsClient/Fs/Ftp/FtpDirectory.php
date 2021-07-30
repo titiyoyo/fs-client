@@ -1,10 +1,10 @@
 <?php
 
-namespace Tertere\FsClient\Fs\Ftp;
+namespace Titiyoyo\FsClient\Fs\Ftp;
 
-use Tertere\FsClient\Fs\AbstractDirectory;
-use Tertere\FsClient\Fs\DirectoryInterface;
-use Tertere\FsClient\Fs\Ftp\FtpItem;
+use Titiyoyo\FsClient\Fs\AbstractDirectory;
+use Titiyoyo\FsClient\Fs\DirectoryInterface;
+use Titiyoyo\FsClient\Fs\Ftp\FtpItem;
 
 class FtpDirectory extends AbstractDirectory implements DirectoryInterface
 {

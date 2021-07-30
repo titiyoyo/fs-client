@@ -1,13 +1,13 @@
 <?php
 
-namespace Tertere\FsClient\Clients;
+namespace Titiyoyo\FsClient\Clients;
 
 use Psr\Log\LoggerInterface;
-use Tertere\FsClient\Fs\DirectoryInterface;
-use Tertere\FsClient\Fs\ItemInterface;
-use Tertere\FsClient\Fs\Local\LocalConfig;
-use Tertere\FsClient\Fs\Local\LocalDirectory;
-use Tertere\FsClient\Fs\Local\LocalItem;
+use Titiyoyo\FsClient\Fs\DirectoryInterface;
+use Titiyoyo\FsClient\Fs\ItemInterface;
+use Titiyoyo\FsClient\Fs\Local\LocalConfig;
+use Titiyoyo\FsClient\Fs\Local\LocalDirectory;
+use Titiyoyo\FsClient\Fs\Local\LocalItem;
 use Symfony\Component\Filesystem\Filesystem;
 
 class LocalClient extends AbstractClient implements ClientInterface

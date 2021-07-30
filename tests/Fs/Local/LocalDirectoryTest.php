@@ -1,10 +1,10 @@
 <?php
 
-namespace Tertere\Test\Fs\Local;
+namespace Titiyoyo\Test\Fs\Local;
 
 use \PHPUnit\Framework\TestCase;
 use Symfony\Component\Filesystem\Filesystem;
-use Tertere\FsClient\Fs\Local\LocalDirectory;
+use Titiyoyo\FsClient\Fs\Local\LocalDirectory;
 
 class LocalDirectoryTest extends TestCase
 {
@@ -13,8 +13,8 @@ class LocalDirectoryTest extends TestCase
     private $testDirRenamed = "directoryTestRenamed";
 
     /**
-     * @covers \Tertere\FsClient\Fs\Local\LocalDirectory::getDirs
-     * @covers \Tertere\FsClient\Fs\Local\LocalDirectory::isDir
+     * @covers \Titiyoyo\FsClient\Fs\Local\LocalDirectory::getDirs
+     * @covers \Titiyoyo\FsClient\Fs\Local\LocalDirectory::isDir
      */
     public function testGetDirs()
     {
@@ -32,8 +32,8 @@ class LocalDirectoryTest extends TestCase
     }
 
     /**
-     * @covers \Tertere\FsClient\Fs\Local\LocalDirectory::getLinks
-     * @covers \Tertere\FsClient\Fs\Local\LocalDirectory::isLink
+     * @covers \Titiyoyo\FsClient\Fs\Local\LocalDirectory::getLinks
+     * @covers \Titiyoyo\FsClient\Fs\Local\LocalDirectory::isLink
      */
     public function testGetLinks()
     {
@@ -51,8 +51,8 @@ class LocalDirectoryTest extends TestCase
     }
 
     /**
-     * @covers \Tertere\FsClient\Fs\Local\LocalDirectory::getFiles
-     * @covers \Tertere\FsClient\Fs\Local\LocalDirectory::isFile
+     * @covers \Titiyoyo\FsClient\Fs\Local\LocalDirectory::getFiles
+     * @covers \Titiyoyo\FsClient\Fs\Local\LocalDirectory::isFile
      */
     public function testGetFiles()
     {
@@ -68,7 +68,7 @@ class LocalDirectoryTest extends TestCase
     }
 
     /**
-     * @covers \Tertere\FsClient\Fs\Local\LocalDirectory::getExcludedFiles
+     * @covers \Titiyoyo\FsClient\Fs\Local\LocalDirectory::getExcludedFiles
      */
     public function testGetExcludedFiles()
     {
@@ -81,9 +81,9 @@ class LocalDirectoryTest extends TestCase
     }
 
     /**
-     * @covers \Tertere\FsClient\Fs\Local\LocalDirectory::rename
-     * @covers \Tertere\FsClient\Fs\Local\LocalDirectory::getPath
-     * @covers \Tertere\FsClient\Fs\Local\LocalDirectory::delete
+     * @covers \Titiyoyo\FsClient\Fs\Local\LocalDirectory::rename
+     * @covers \Titiyoyo\FsClient\Fs\Local\LocalDirectory::getPath
+     * @covers \Titiyoyo\FsClient\Fs\Local\LocalDirectory::delete
      */
     public function testRename()
     {

@@ -1,10 +1,10 @@
 <?php
 
-namespace Tertere\FsClient\Fs\Local;
+namespace Titiyoyo\FsClient\Fs\Local;
 
-use Tertere\FsClient\Exception\FsClientConfigException;
-use Tertere\FsClient\Fs\AbstractConfig;
-use Tertere\FsClient\Fs\ConfigInterface;
+use Titiyoyo\FsClient\Exception\FsClientConfigException;
+use Titiyoyo\FsClient\Fs\AbstractConfig;
+use Titiyoyo\FsClient\Fs\ConfigInterface;
 
 class LocalConfig extends AbstractConfig implements ConfigInterface
 {

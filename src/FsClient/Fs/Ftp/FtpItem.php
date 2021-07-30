@@ -1,9 +1,9 @@
 <?php
 
-namespace Tertere\FsClient\Fs\Ftp;
+namespace Titiyoyo\FsClient\Fs\Ftp;
 
 use \Tertere\FsClient\Fs\AbstractItem;
-use Tertere\FsClient\Fs\ItemInterface;
+use Titiyoyo\FsClient\Fs\ItemInterface;
 
 /**
  * Created by JetBrains PhpStorm.

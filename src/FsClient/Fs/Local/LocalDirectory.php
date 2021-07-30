@@ -1,12 +1,12 @@
 <?php
 
-namespace Tertere\FsClient\Fs\Local;
+namespace Titiyoyo\FsClient\Fs\Local;
 
 use Symfony\Component\Filesystem\Exception\IOException;
 use Symfony\Component\Filesystem\Filesystem;
-use Tertere\FsClient\Fs\AbstractDirectory;
-use Tertere\FsClient\Fs\DirectoryInterface;
-use Tertere\FsClient\Fs\ItemInterface;
+use Titiyoyo\FsClient\Fs\AbstractDirectory;
+use Titiyoyo\FsClient\Fs\DirectoryInterface;
+use Titiyoyo\FsClient\Fs\ItemInterface;
 
 class LocalDirectory extends AbstractDirectory implements DirectoryInterface, ItemInterface
 {

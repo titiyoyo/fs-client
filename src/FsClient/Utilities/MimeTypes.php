@@ -1,5 +1,5 @@
 <?php
-namespace Tertere\FsClient\Utilities;
+namespace Titiyoyo\FsClient\Utilities;
 
 class MimeTypes
 {

@@ -1,7 +1,7 @@
 <?php
 
 
-namespace Tertere\FsClient\Fs\Ftp;
+namespace Titiyoyo\FsClient\Fs\Ftp;
 
 
 trait FtpTrait

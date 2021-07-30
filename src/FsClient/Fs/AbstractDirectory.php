@@ -1,9 +1,9 @@
 <?php
 
-namespace Tertere\FsClient\Fs;
+namespace Titiyoyo\FsClient\Fs;
 
 use Symfony\Component\Filesystem\Exception\FileNotFoundException;
-use Tertere\FsClient\Exception\FsClientConfigException;
+use Titiyoyo\FsClient\Exception\FsClientConfigException;
 
 abstract class AbstractDirectory extends AbstractItem
 {

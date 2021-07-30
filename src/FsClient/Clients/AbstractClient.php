@@ -1,9 +1,9 @@
 <?php
 
-namespace Tertere\FsClient\Clients;
+namespace Titiyoyo\FsClient\Clients;
 
 use Psr\Log\LoggerInterface;
-use Tertere\FsClient\Fs\ConfigInterface;
+use Titiyoyo\FsClient\Fs\ConfigInterface;
 
 abstract class AbstractClient
 {

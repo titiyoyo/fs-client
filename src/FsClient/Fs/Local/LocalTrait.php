@@ -1,8 +1,8 @@
 <?php
 
-namespace Tertere\FsClient\Fs\Local;
+namespace Titiyoyo\FsClient\Fs\Local;
 
-use Tertere\FsClient\Utilities\MimeTypes;
+use Titiyoyo\FsClient\Utilities\MimeTypes;
 
 trait LocalTrait
 {
